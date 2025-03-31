@@ -1,16 +1,25 @@
+"use client";
+
 import { Fugaz_One } from 'next/font/google'
 import React from 'react'
 import Button from './Button';
+import { useRouter } from 'next/navigation';
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] });
 
 export default function Contact() {
+  const router = useRouter();
+
+  const handleSubmit = () => {
+    router.push('/thank-you');
+  }
+
   return (
     <div className="flex flex-col md:flex-row items-center gap-6 min-h-screen">
       {/* Left Side: Image */}
       <div className="w-full md:w-1/2 flex justify-center items-center">
         <img
-          src="images/floralbrain.jpg" // Replace with your image path
+          src="images/floralbrain.jpg" 
           alt="Contact Us"
           className="w-full max-w-md rounded-lg shadow-lg"
         />
@@ -39,7 +48,7 @@ export default function Contact() {
         ></textarea>
 
         <div className="max-w-[400px] w-full flex justify-center">
-          <Button text="Submit" dark />
+          <Button onClick={handleSubmit} text="Submit" dark />
         </div>
       </div>
     </div>
