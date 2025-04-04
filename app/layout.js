@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
           </Link>
         </li>
         <li>
-          <Link href="/resources" className="hover:text-gray-200 transition-colors duration-300">
+          <Link href="/resource" className="hover:text-gray-200 transition-colors duration-300">
             Resources
           </Link>
         </li>
