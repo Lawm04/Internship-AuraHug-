@@ -12,33 +12,33 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   const header = (
-    <header className="p-4 sm:p-8 flex items-center justify-between gap-4 bg-gray-200 w-full">
+    <header className="p-4 sm:p-8 flex items-center justify-between gap-4 bg-gray-300 w-full">
       <h1 className={`text-base sm:text-lg textGradient ${fugaz.className}`}>
         AuraHug
       </h1>
       <ul className="flex flex-row gap-4 ml-4">
         <li>
-          <Link href="/dashboard" className="hover:text-gray-200 transition-colors duration-300">
+          <Link href="/dashboard" className="hover:text-indigo-400 transition-colors duration-300">
             Home
           </Link>
         </li>
         <li>
-          <Link href="/stress-relief" className="hover:text-gray-200 transition-colors duration-300">
+          <Link href="/stress-relief" className="hover:text-indigo-400 transition-colors duration-300">
             Features
           </Link>
         </li>
         <li>
-          <Link href="/resource" className="hover:text-gray-200 transition-colors duration-300">
+          <Link href="/resource" className="hover:text-indigo-400 transition-colors duration-300">
             Resources
           </Link>
         </li>
         <li>
-          <Link href="/about" className="hover:text-gray-200 transition-colors duration-300">
+          <Link href="/about" className="hover:text-indigo-400 transition-colors duration-300">
             About
           </Link>
         </li>
         <li>
-          <Link href="/contact" className="hover:text-gray-200 transition-colors duration-300">
+          <Link href="/contact" className="hover:text-indigo-400 transition-colors duration-300">
             Contact
           </Link>
         </li>
