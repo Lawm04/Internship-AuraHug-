@@ -9,6 +9,8 @@ const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 
 export default function StressReliefExercise() {
+  const router = useRouter();
+
   return (
   <div className="bg-gray-50 font-sans leading-relaxed">
 
@@ -20,7 +22,9 @@ export default function StressReliefExercise() {
         <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition">
           <h2 className={`text-2xl font-semibold mb-4 ${fugaz.className}`}>Breathing Exercises</h2>
           <p className="text-gray-700 mb-4">Techniques like 4-7-8 breathing and diaphragmatic breathing to help you calm down.</p>
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+          <button onClick={() => router.push("/breathing")}
+
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
             Explore Breathing Exercises
           </button>
         </div>
@@ -41,7 +45,8 @@ export default function StressReliefExercise() {
       <div className="p-6 bg-white rounded-lg shadow-md max-w-xl mx-auto text-center">
         <h3 className={`text-2xl font-semibold mb-4 ${fugaz.className}`}>2-Minute Breathing Exercise</h3>
         <p className="text-gray-700 mb-6">Quickly relax with this simple breathing technique.</p>
-        <button className="bg-green-500 text-white px-6 py-3 rounded-lg font-bold text-lg hover:bg-green-600 transition">
+        <button onClick={() => router.push("/bloom")}
+        className="bg-green-500 text-white px-6 py-3 rounded-lg font-bold text-lg hover:bg-green-600 transition">
           Start Now
         </button>
       </div>
@@ -78,7 +83,6 @@ export default function StressReliefExercise() {
         </div>
       </div>
     </section>
-
 
   </div>
     )
