@@ -11,19 +11,6 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function Dashboard() {
-  const statuses = {
-    num_days: 14,
-    time_remaining: "13:14:26",
-    date: new Date().toDateString(),
-  };
-
-  const moods = {
-    "neutral": "🥴",
-    happy: "😆",
-    love: "💕",
-    sad: "😭",
-    cool: "😎",
-  };
 
    // Pie chart data
    const pieData = {
@@ -122,17 +109,6 @@ export default function Dashboard() {
     </div>
   </div>
 </div>
-
-
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
-        {Object.keys(moods).map((mood, moodIndex) => (
-          <button className={'p-4 rounded-lg purpleShadow duration-200 bg-indigo-50 hover:bg-indigo-100 text-center flex flex-col gap-2 ' +
-           (moodIndex === 4 ? "col-span-2 sm:col-span-1 " : " ")} key={moodIndex} >
-            <p className=" text-4xl sm:text-5xl md:text-6xl ">{moods[mood]}</p>
-            <p className={'text-indigo-500 ' + fugaz.className }>{mood}</p>
-          </button>
-        ))}
-      </div>
     </div>
   );
 }
