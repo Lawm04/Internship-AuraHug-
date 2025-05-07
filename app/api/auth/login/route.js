@@ -8,6 +8,15 @@ export async function POST(request) {
       await dbConnect();
       const { email, password } = await request.json();
       const user = await User.findOne({ email });
+
+     //Validation
+    if ( !email || !password) {
+      returnNextResponse.json(
+        { message: "All fields are required" },
+        { status: 400 }
+      );
+    }
+      
   
       if (!user) {
         return NextResponse.json(

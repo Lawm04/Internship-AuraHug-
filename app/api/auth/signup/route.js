@@ -7,6 +7,29 @@ export async function POST(request) {
     await dbConnect();
     const { name, email, password } = await request.json();
 
+    //Validation
+    if (!name || !email || !password) {
+      returnNextResponse.json(
+        { message: "All fields are required" },
+        { status: 400 }
+      );
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)){
+      return NextResponse.json(
+        { message: "Invalid email format"},
+        {status: 400}
+      )
+    }
+
+    if (password.length < 8) {
+      return NextResponse.json(
+        {message: "Password must be at least 8 characters"},
+        {status: 400}
+      )
+    }
+
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
