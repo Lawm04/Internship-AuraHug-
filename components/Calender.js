@@ -5,7 +5,6 @@ import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { format } from "date-fns";
 
-
 export default function Calender() {
   const [value, setValue] = useState(new Date());
 
@@ -34,7 +33,6 @@ export default function Calender() {
           formatShortWeekday={(locale, date) => 
             ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][date.getDay()]
           }
-          // Remove tileContent to prevent duplicate numbers
         />
       </div>
 

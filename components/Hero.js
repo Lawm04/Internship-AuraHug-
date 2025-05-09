@@ -22,10 +22,8 @@ export default function Hero() {
         <div className='grid grid-cols-2 gap-4 w-fit mx-auto '>
            <Button onClick={() => router.push('/signup')} text="Sign up" />
            <Button onClick={() => router.push('/login')} text="Login" dark/>
-
         </div>
         <Calender />    
     </div>
-     
   )
 }

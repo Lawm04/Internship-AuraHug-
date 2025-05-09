@@ -17,7 +17,6 @@ export async function POST(request) {
       );
     }
       
-  
       if (!user) {
         return NextResponse.json(
           { message: "Invalid credentials" },
