@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   const header = (
     <header className="p-4 sm:p-8 flex items-center justify-between gap-4 bg-gray-300 w-full">
-<Link href="/landing">
+<Link href="/profile">
   <img
     src="/images/AuraHug.png"
     alt="AuraHug Logo"

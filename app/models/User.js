@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
 const UserSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    default: "Anonymous",
+  },
   email: {
     type: String,
     required: true,

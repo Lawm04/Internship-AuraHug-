@@ -9,7 +9,7 @@ export async function POST(request) {
 
     //Validation
     if (!name || !email || !password) {
-      returnNextResponse.json(
+      return NextResponse.json(
         { message: "All fields are required" },
         { status: 400 }
       );
