@@ -6,23 +6,19 @@ import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { FiZap, FiActivity, FiHeadphones } from 'react-icons/fi';
 
-const fugaz = Fugaz_One({ 
-  subsets: ["latin"], 
-  weight: ["400"],
-  variable: '--font-fugaz'
-});
+const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function StressReliefExercise() {
   const router = useRouter();
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50 font-sans">
+    <div className={`min-h-screen bg-slate-50 font-sans ${fugaz.variable}`}>
       {/* Categories Section */}
       <section className="py-16 px-6 max-w-6xl mx-auto">
         <motion.h2 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className={`text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent ${fugaz.variable} font-fugaz`}
+          className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent ${fugaz.className}"
         >
           Stress Relief Toolkit
         </motion.h2>
@@ -31,17 +27,17 @@ export default function StressReliefExercise() {
           {/* Breathing Exercises Card */}
           <motion.div 
             whileHover={{ y: -5 }}
-            className="p-8 bg-white rounded-2xl shadow-lg border border-purple-100 hover:border-purple-200 transition-all"
+            className="p-8 bg-white rounded-2xl shadow-md border border-slate-200 hover:border-purple-300 transition-all"
           >
             <div className="flex items-start gap-4 mb-6">
               <div className="p-3 bg-purple-100 rounded-xl">
                 <FiActivity className="text-3xl text-purple-600" />
               </div>
-              <h2 className={`text-2xl font-bold text-purple-800 ${fugaz.variable} font-fugaz`}>
+              <h2 className="text-2xl font-bold text-purple-800 font-fugaz">
                 Breathing Mastery
               </h2>
             </div>
-            <p className="text-gray-700 mb-6 text-lg font-medium">
+            <p className="text-gray-700 mb-6 text-lg">
               Harness ancient techniques like 4-7-8 rhythm and diaphragmatic flow to find your calm center.
             </p>
             <motion.button 
@@ -57,17 +53,17 @@ export default function StressReliefExercise() {
           {/* Guided Meditations Card */}
           <motion.div 
             whileHover={{ y: -5 }}
-            className="p-8 bg-white rounded-2xl shadow-lg border border-blue-100 hover:border-blue-200 transition-all"
+            className="p-8 bg-white rounded-2xl shadow-md border border-slate-200 hover:border-blue-300 transition-all"
           >
             <div className="flex items-start gap-4 mb-6">
               <div className="p-3 bg-blue-100 rounded-xl">
                 <FiHeadphones className="text-3xl text-blue-600" />
               </div>
-              <h2 className={`text-2xl font-bold text-blue-800 ${fugaz.variable} font-fugaz`}>
+              <h2 className="text-2xl font-bold text-blue-800 font-fugaz">
                 Mindful Sessions
               </h2>
             </div>
-            <p className="text-gray-700 mb-6 text-lg font-medium">
+            <p className="text-gray-700 mb-6 text-lg">
               Immerse in curated audio journeys blending mindfulness, nature sounds, and binaural beats.
             </p>
             <motion.button 
@@ -88,22 +84,22 @@ export default function StressReliefExercise() {
           <motion.div 
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
-            className="p-8 bg-gradient-to-br from-purple-50 to-blue-50 rounded-3xl border border-purple-100 text-center shadow-lg"
+            className="p-8 bg-white rounded-3xl border border-slate-200 text-center shadow-md"
           >
             <div className="mb-6 inline-block p-4 bg-purple-100 rounded-full">
               <FiZap className="text-4xl text-purple-600" />
             </div>
-            <h2 className={`text-3xl font-bold text-purple-900 mb-4 ${fugaz.variable} font-fugaz`}>
+            <h2 className="text-3xl font-bold text-purple-900 mb-4 font-fugaz">
               Instant Recharge
             </h2>
-            <p className="text-gray-700 mb-8 text-lg max-w-xl mx-auto font-medium">
+            <p className="text-gray-700 mb-8 text-lg max-w-xl mx-auto">
               Reset your nervous system with our 5-minute nature immersion experience
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/relax")}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-yellow-400 to-amber-500 text-lg font-bold text-gray-900 hover:from-yellow-500 hover:to-amber-600 transition-all"
+              className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-lg font-bold text-gray-900 hover:from-amber-500 hover:to-orange-600 transition-all"
             >
               Activate Relaxation
             </motion.button>

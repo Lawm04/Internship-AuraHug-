@@ -36,7 +36,7 @@ export default function page() {
       >
         <div className="space-y-2 mb-12 text-center">
           <h1 className={`text-6xl font-extrabold mb-2 text-center ${fugaz.className}`}>
-            <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
               Mood Spectrum
             </span>
           </h1>

@@ -7,7 +7,11 @@ import { FaPlay, FaPause, FaRedo } from 'react-icons/fa';
 import { Howl } from 'howler';
 import { Fugaz_One } from "next/font/google";
 
-const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
+const fugaz = Fugaz_One({ 
+  subsets: ["latin"], 
+  weight: ["400"],
+  variable: '--font-fugaz'
+});
 
 const ambientSounds = {
   rain: new Howl({ src: ['/sounds/rain.mp3'], loop: true }),
@@ -16,17 +20,11 @@ const ambientSounds = {
 };
 
 export default function Page() {
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(300);
   const [isPlaying, setIsPlaying] = useState(false);
   const [sessionCompleted, setSessionCompleted] = useState(false);
   const [ambientSound, setAmbientSound] = useState(null);
   const [selectedSound, setSelectedSound] = useState('rain');
-
-  const ambientSounds = {
-    rain: new Howl({ src: ['/sounds/rain.mp3'], loop: true }),
-    waves: new Howl({ src: ['/sounds/waves.mp3'], loop: true }),
-    forest: new Howl({ src: ['/sounds/forest.mp3'], loop: true })
-  };
 
   useEffect(() => {
     if (isPlaying) {
@@ -72,38 +70,38 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 flex flex-col items-center justify-center p-8">
+    <div className={`min-h-screen bg-slate-50 flex flex-col items-center justify-center p-8 ${fugaz.variable}`}>
       <motion.div 
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl w-full max-w-md"
+        className="bg-white rounded-2xl p-8 shadow-lg w-full max-w-md border border-slate-200"
       >
-        <h1 className="text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400 mb-6">
+        <h1 className={`text-4xl font-bold text-center bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-6 font-fugaz`}>
           Daily Mindfulness
         </h1>
 
         {!sessionCompleted ? (
           <>
             <div className="flex flex-col items-center mb-8">
-              <div className="text-6xl font-mono text-cyan-400 mb-4">
+              <div className="text-6xl font-mono text-purple-600 mb-4">
                 {formatTime(timeLeft)}
               </div>
               <div className="flex gap-4">
                 <button
                   onClick={isPlaying ? handlePause : handleStart}
-                  className="p-4 rounded-full bg-cyan-500 hover:bg-cyan-600 transition-all"
+                  className="p-4 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white transition-all"
                 >
                   {isPlaying ? (
-                    <FaPause className="text-2xl text-white" />
+                    <FaPause className="text-2xl" />
                   ) : (
-                    <FaPlay className="text-2xl text-white" />
+                    <FaPlay className="text-2xl" />
                   )}
                 </button>
               </div>
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-white/80 text-lg mb-2">Ambient Sounds</h3>
+              <h3 className="text-gray-700 text-lg mb-2 font-medium">Ambient Sounds</h3>
               <div className="grid grid-cols-3 gap-3">
                 {Object.keys(ambientSounds).map((sound) => (
                   <button
@@ -111,14 +109,14 @@ export default function Page() {
                     onClick={() => setSelectedSound(sound)}
                     className={`p-3 rounded-xl transition-all ${
                       selectedSound === sound
-                        ? 'bg-cyan-500/20 border-2 border-cyan-400'
-                        : 'bg-white/5 hover:bg-white/10'
+                        ? 'bg-purple-100 border-2 border-purple-300'
+                        : 'bg-slate-100 hover:bg-slate-200'
                     }`}
                   >
-                    <span className="text-white capitalize">
+                    <span className="text-gray-800 capitalize font-medium">
                       {sound}
                       {selectedSound === sound && (
-                        <span className="ml-2">✓</span>
+                        <span className="ml-2 text-purple-600">✓</span>
                       )}
                     </span>
                   </button>
@@ -132,16 +130,16 @@ export default function Page() {
             animate={{ y: 0, opacity: 1 }}
             className="text-center"
           >
-            <div className="text-6xl mb-4">🎉</div>
-            <h2 className="text-2xl font-bold text-cyan-400 mb-4">
+            <div className="text-6xl mb-4 text-purple-600">🎉</div>
+            <h2 className={`text-2xl font-bold text-gray-800 mb-4 font-fugaz`}>
               Session Complete!
             </h2>
-            <p className="text-white/80 mb-6">
+            <p className="text-gray-600 mb-6">
               Great job taking time for mindfulness today
             </p>
             <button
               onClick={handleRestart}
-              className="px-6 py-3 rounded-full bg-cyan-500 hover:bg-cyan-600 text-white flex items-center gap-2 mx-auto"
+              className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white flex items-center gap-2 mx-auto"
             >
               <FaRedo />
               Start Again
@@ -150,7 +148,7 @@ export default function Page() {
         )}
       </motion.div>
 
-      <p className="text-white/60 mt-8 text-center">
+      <p className="text-gray-600 mt-8 text-center">
         Begin your daily practice with a 5-minute mindful session
       </p>
     </div>
