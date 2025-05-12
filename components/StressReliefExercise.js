@@ -69,7 +69,7 @@ export default function StressReliefExercise() {
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/meditation")}
+              onClick={() => router.push("/relax")}
               className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-lg font-semibold text-white hover:from-blue-700 hover:to-purple-700 transition-all"
             >
               Start Meditation

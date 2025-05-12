@@ -28,7 +28,7 @@ export default function About() {
       {/* Right Side: Image */}
       <div className="w-full md:w-1/2 flex justify-center items-center">
         <img
-          src="images/about.jpg" // Replace with your actual image path
+          src="/images/AuraHug.png"
           alt="About AuraHug"
           className="w-full max-w-md rounded-lg shadow-lg"
         />
