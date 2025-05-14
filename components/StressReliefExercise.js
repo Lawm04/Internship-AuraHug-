@@ -43,7 +43,7 @@ export default function StressReliefExercise() {
             <motion.button 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/breathing")}
+              onClick={() => router.push("/bloom")}
               className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 text-lg font-semibold text-white hover:from-purple-700 hover:to-blue-700 transition-all"
             >
               Begin Breathwork
