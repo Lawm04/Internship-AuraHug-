@@ -26,10 +26,31 @@ export default function page() {
     setGratitudes(updated);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (mood !== null && gratitudes.some((g) => g.trim() !== "")) {
-      setSubmitted(true);
-      // Optionally send to backend here
+      try {
+        const res = await fetch("/api/mood", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            mood: moods[mood].label,
+            energy,
+            gratitudes,
+            email: "yexlawmveung@gmail.com",
+          }),
+        });
+
+        const result = await res.json();
+        if (res.ok) {
+          setSubmitted(true);
+        } else {
+          console.error("Failed to save:", result.message);
+        }
+      } catch (err) {
+        console.error("Error saving mood:", err);
+      }
     }
   };
 

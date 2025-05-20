@@ -2,7 +2,9 @@ import mongoose from "mongoose";
 
 const MoodSchema = new mongoose.Schema({
   mood: { type: String, required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  energy: {type: Number,required:true},
+  gratitudes:{type:[String], default:[]},
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, },
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -98,7 +98,7 @@ export default function StressReliefExercise() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/relax")}
+              onClick={() => router.push("/recharge")}
               className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-lg font-bold text-gray-900 hover:from-amber-500 hover:to-orange-600 transition-all"
             >
               Activate Relaxation

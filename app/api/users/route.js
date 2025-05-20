@@ -6,7 +6,6 @@ export async function GET() {
   try {
     await dbConnect();
 
-    // Replace with session logic if needed
     const demoEmail = "yexlawmveung@gmail.com";
 
     const user = await User.findOne({ email: demoEmail }).select("name email");
