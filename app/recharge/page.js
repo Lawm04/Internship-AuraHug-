@@ -9,7 +9,7 @@ import { FaPlay, FaPause, FaRedo } from "react-icons/fa";
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 const sound = new Howl({
-  src: ["/sounds/nature.mp3"],
+  src: ["/sounds/nature.wav"],
   loop: true,
   volume: 0.5,
 });

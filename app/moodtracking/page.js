@@ -1,122 +1,120 @@
 "use client";
 
-import React from 'react'
-import { useState } from 'react';
-import { Fugaz_One } from "next/font/google";
-import { motion } from "framer-motion";
-import { FiArrowRight, FiCheckCircle } from 'react-icons/fi';
+import React, { useState,useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FiCheckCircle } from "react-icons/fi";
 
-const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
+const moods = [
+  { emoji: "😊", label: "Happy" },
+  { emoji: "😤", label: "Frustrated" },
+  { emoji: "😴", label: "Tired" },
+  { emoji: "🤯", label: "Overwhelmed" },
+  { emoji: "💖", label: "Loved" },
+  { emoji: "😐", label: "Neutral" },
+];
 
-export default function page() {
-    const [mood, setMood] = useState("");
-    const [submittedMood, setSubmittedMood] = useState(null);
+export default function QuickMoodTracker() {
+  const [selected, setSelected] = useState(null);
+  const [customNote, setCustomNote] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [moodData, setMoodData] = useState(null);
 
-    const quickMoods = [
-        { emoji: "✨", label: "Inspired" },
-        { emoji: "🌪️", label: "Chaotic" },
-        { emoji: "🌈", label: "Hopeful" },
-        { emoji: "⚡", label: "Energetic" },
-        { emoji: "🌑", label: "Melancholy" },
-    ];
-
-    const handleMoodSubmit = () => {
-        if (mood) {
-            setSubmittedMood(mood);
-            setMood("");          
-        }
-    };
+  const handleSubmit = async () => {
+    if (!selected) return;
+  
+    try {
+      const res = await fetch("/api/quickmood", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mood: selected.label,
+          note: customNote,
+          date: new Date(),
+        }),
+      });
+  
+      if (!res.ok) {
+        const errData = await res.json();
+        console.error("Failed to save mood:", errData.message);
+        return;
+      }
+  
+      setSubmitted(true);
+      setTimeout(() => {
+        setSelected(null);
+        setCustomNote("");
+        setSubmitted(false);
+      }, 3000);
+    } catch (error) {
+      console.error("Error submitting mood:", error);
+    }
+  };
+  
+  
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-2xl"
-      >
-        <div className="space-y-2 mb-12 text-center">
-          <h1 className={`text-6xl font-extrabold mb-2 text-center ${fugaz.className}`}>
-            <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-              Mood Spectrum
-            </span>
-          </h1>
-          <p className="text-lg text-gray-600 max-w-xl text-center mx-auto">
-            Map your emotional coordinates through time and space
-          </p>
-        </div>
+    <div className="min-h-screen flex items-center justify-center bg-purple-800 p-6 text-white">
+      <div className="w-full max-w-lg bg-white/10 backdrop-blur-lg p-8 rounded-3xl shadow-2xl border border-white/20">
+        <h1 className="text-3xl font-semibold text-center mb-6">Quick Mood Log</h1>
 
-        <div className="bg-white/95 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-slate-200">
-          {/* Quick Mood Selection */}
-          <div className="mb-10">
-            <div className="grid grid-cols-5 gap-4 mb-8">
-              {quickMoods.map((moodItem, index) => (
-                <motion.button
-                  key={index}
-                  whileHover={{ y: -4 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setMood(moodItem.label)}
-                  className="p-3 rounded-2xl bg-white hover:bg-slate-50 transition-all flex flex-col items-center group border border-slate-200"
-                >
-                  <span className="text-4xl mb-2 transition-transform group-hover:scale-125">
-                    {moodItem.emoji}
-                  </span>
-                  <span className="text-sm font-medium text-gray-700 group-hover:text-purple-600">
-                    {moodItem.label}
-                  </span>
-                </motion.button>
-              ))}
-            </div>
-          </div>
-
-          {/* Mood Input */}
-          <div className="relative mb-6">
-            <motion.div whileHover={{ scale: 1.02 }}>
-              <input
-                type="text"
-                value={mood}
-                onChange={(e) => setMood(e.target.value)}
-                placeholder="Describe your current state..."
-                className="w-full px-8 py-5 pr-28 border-2 border-slate-200 rounded-[2rem] bg-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 text-lg text-gray-800 placeholder-gray-400"
-              />
-            </motion.div>
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          {moods.map((mood, idx) => (
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.08 }}
               whileTap={{ scale: 0.95 }}
-              onClick={handleMoodSubmit}
-              disabled={!mood}
-              className="absolute right-2 top-2 px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-[2rem] font-semibold flex items-center gap-2 shadow-lg disabled:opacity-40 disabled:cursor-not-allowed"
+              key={idx}
+              className={`p-4 rounded-2xl border transition ${
+                selected?.label === mood.label
+                  ? "bg-purple-500 border-purple-700"
+                  : "bg-white/5 border-white/20"
+              }`}
+              onClick={() => setSelected(mood)}
             >
-              <span>Log</span>
-              <FiArrowRight className="text-xl" />
+              <div className="text-3xl mb-1">{mood.emoji}</div>
+              <div className="text-sm font-medium">{mood.label}</div>
             </motion.button>
-          </div>
+          ))}
         </div>
 
-        {submittedMood && (
-          <motion.div 
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            className="mt-8 p-6 bg-white backdrop-blur-sm rounded-2xl border border-slate-200 text-center shadow-md"
-          >
-            <motion.div 
-              animate={{ rotate: [0, 10, -10, 0] }}
-              className="text-4xl mb-3 text-purple-600"
+        <motion.input
+          whileFocus={{ scale: 1.01 }}
+          type="text"
+          value={customNote}
+          onChange={(e) => setCustomNote(e.target.value)}
+          placeholder="Add a quick note (optional)..."
+          className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-purple-400 mb-6"
+        />
+
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.95 }}
+          disabled={!selected}
+          onClick={handleSubmit}
+          className={`w-full py-3 rounded-xl font-semibold transition ${
+            selected
+              ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white"
+              : "bg-gray-500 cursor-not-allowed text-white/70"
+          }`}
+        >
+          Log Mood
+        </motion.button>
+
+        <AnimatePresence>
+          {submitted && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="mt-6 p-4 bg-green-500/20 border border-green-500 text-green-200 rounded-xl flex items-center gap-2"
             >
-              🌟
+              <FiCheckCircle className="text-lg" />
+              <span>Your mood has been logged!</span>
             </motion.div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2 flex items-center justify-center gap-2">
-              <FiCheckCircle className="text-purple-600" />
-              Mood Recorded
-            </h2>
-            <p className="text-gray-700">
-              Current mood:{" "}
-              <span className="font-semibold text-purple-600">
-                {submittedMood}
-              </span>
-            </p>
-          </motion.div>
-        )}
-      </motion.div>
-    </div> 
-  )
+          )}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
 }

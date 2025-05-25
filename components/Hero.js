@@ -3,7 +3,6 @@
 import { Fugaz_One } from 'next/font/google';
 import React from 'react'
 import Button from './Button';
-import Calender from './Calender';
 import { useRouter } from 'next/navigation';
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] });
@@ -23,7 +22,6 @@ export default function Hero() {
            <Button onClick={() => router.push('/signup')} text="Sign up" />
            <Button onClick={() => router.push('/login')} text="Login" dark/>
         </div>
-        <Calender />    
     </div>
   )
 }

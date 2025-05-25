@@ -2,6 +2,7 @@
 
 import { Fugaz_One } from "next/font/google";
 import React, { useEffect, useState } from "react";
+import Calender from './Calender';
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useRouter } from "next/navigation";
@@ -17,7 +18,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchMoodData = async () => {
       try {
-        const res = await fetch("/api/mood");
+        const res = await fetch("/api/quickmood");
         const data = await res.json();
         setMoodData(data);
       } catch (err) {
@@ -34,7 +35,7 @@ export default function Dashboard() {
           datasets: [
             {
               data: Object.values(moodData),
-              backgroundColor: ["#A8E6CF", "#FF8B94", "#B3CDE0"],
+              backgroundColor: ["#A8E6CF", "#FF8B94", "#FFD3B6", "#F8BBD0", "#D1C4E9","#B3CDE0"],
               borderWidth: 1,
             },
           ],
@@ -145,6 +146,10 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      
+      <Calender />    
+
     </div>
+    
   );
 }
