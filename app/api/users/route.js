@@ -1,14 +1,19 @@
 import dbConnect from "@/app/database/mongodb";
 import User from "@/app/models/User";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../[...nextauth]/route";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req) {
   try {
     await dbConnect();
 
-    const demoEmail = "yexlawmveung@gmail.com";
+    const session = await getServerSession(authOptions);
+    if(!session?.user?.email){
+      return NextResponse.json({ message:"Unauthorized"}, {status:401});
+    }
 
-    const user = await User.findOne({ email: demoEmail }).select("name email");
+    const user = await User.findOne({ email: session.user.email }).select("name email");
 
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
@@ -16,6 +21,7 @@ export async function GET() {
 
     return NextResponse.json(user);
   } catch (error) {
+    console.error("Error fetching user:", error);
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 }

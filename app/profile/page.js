@@ -72,6 +72,7 @@ export default function ProfilePage() {
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">{error}</div>
         )}
 
+        //Avatar
         <div className="flex flex-col items-center mb-8">
           <div 
             className="relative group cursor-pointer"
