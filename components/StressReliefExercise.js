@@ -1,31 +1,32 @@
 "use client";
 
-import { Fugaz_One } from 'next/font/google';
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { FiZap, FiActivity, FiHeadphones } from 'react-icons/fi';
+import { Fugaz_One } from "next/font/google";
+import React from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { FiActivity, FiHeadphones } from "react-icons/fi";
+import { FiClock, FiLock, FiBarChart2 } from "react-icons/fi";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function StressReliefExercise() {
   const router = useRouter();
-  
+
   return (
     <div className={`min-h-screen bg-slate-50 font-sans ${fugaz.variable}`}>
       {/* Categories Section */}
       <section className="py-16 px-6 max-w-6xl mx-auto">
-        <motion.h2 
+        <motion.h2
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent ${fugaz.className}"
         >
           Stress Relief Toolkit
         </motion.h2>
-      
+
         <div className="grid md:grid-cols-2 gap-8">
           {/* Breathing Exercises Card */}
-          <motion.div 
+          <motion.div
             whileHover={{ y: -5 }}
             className="p-8 bg-white rounded-2xl shadow-md border border-slate-200 hover:border-purple-300 transition-all"
           >
@@ -38,9 +39,10 @@ export default function StressReliefExercise() {
               </h2>
             </div>
             <p className="text-gray-700 mb-6 text-lg">
-              Harness ancient techniques like 4-7-8 rhythm and diaphragmatic flow to find your calm center.
+              Harness ancient techniques like 4-7-8 rhythm and diaphragmatic
+              flow to find your calm center.
             </p>
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/bloom")}
@@ -51,7 +53,7 @@ export default function StressReliefExercise() {
           </motion.div>
 
           {/* Guided Meditations Card */}
-          <motion.div 
+          <motion.div
             whileHover={{ y: -5 }}
             className="p-8 bg-white rounded-2xl shadow-md border border-slate-200 hover:border-blue-300 transition-all"
           >
@@ -64,9 +66,10 @@ export default function StressReliefExercise() {
               </h2>
             </div>
             <p className="text-gray-700 mb-6 text-lg">
-              Immerse in curated audio journeys blending mindfulness, nature sounds, and binaural beats.
+              Immerse in curated audio journeys blending mindfulness, nature
+              sounds, and binaural beats.
             </p>
-            <motion.button 
+            <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/relax")}
@@ -78,31 +81,87 @@ export default function StressReliefExercise() {
         </div>
       </section>
 
-      {/* Quick Relax Section */}
-      <section className="py-16 px-6 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <motion.div 
-            initial={{ scale: 0.95 }}
-            animate={{ scale: 1 }}
-            className="p-8 bg-white rounded-3xl border border-slate-200 text-center shadow-md"
+      {/* Mental Quiz Section */}
+      <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-indigo-50 to-purple-50 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-20 -right-10 w-72 h-72 bg-purple-200 rounded-full opacity-40 blur-3xl"></div>
+        <div className="absolute bottom-10 -left-10 w-80 h-80 bg-amber-200 rounded-full opacity-30 blur-3xl"></div>
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="p-8 bg-gradient-to-br from-white to-purple-50 rounded-3xl border border-white shadow-xl backdrop-blur-sm"
           >
-            <div className="mb-6 inline-block p-4 bg-purple-100 rounded-full">
-              <FiZap className="text-4xl text-purple-600" />
-            </div>
-            <h2 className="text-3xl font-bold text-purple-900 mb-4 font-fugaz">
-              Instant Recharge
-            </h2>
-            <p className="text-gray-700 mb-8 text-lg max-w-xl mx-auto">
-              Reset your nervous system with our 5-minute nature immersion experience
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => router.push("/recharge")}
-              className="px-8 py-4 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-lg font-bold text-gray-900 hover:from-amber-500 hover:to-orange-600 transition-all"
+            <motion.div
+              className="mb-6 mx-auto w-24 h-24 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 shadow-lg"
+              animate={{
+                rotate: [0, 5, -5, 5, 0],
+                scale: [1, 1.05, 1],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
             >
-              Activate Relaxation
-            </motion.button>
+              <span className="text-5xl">🧠</span>
+            </motion.div>
+
+            <div className="text-center mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-700 to-indigo-800 bg-clip-text text-transparent mb-4">
+                Mental Wellness Check
+              </h2>
+              <p className="text-gray-700 mb-6 text-lg max-w-2xl mx-auto leading-relaxed">
+                Take a quick, confidential assessment to gain insights into your
+                emotional well-being and receive personalized resources.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mt-10">
+              <motion.button
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 10px 25px -5px rgba(139, 92, 246, 0.4)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => router.push("/mentalcheck")}
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-lg font-bold text-white hover:from-purple-700 hover:to-indigo-700 transition-all flex items-center justify-center gap-3 shadow-lg"
+              >
+                Start Assessment
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </motion.button>
+            </div>
+
+            <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
+              <div className="flex items-center gap-2">
+                <FiClock className="text-purple-500" />
+                <span>Only 5 minutes</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FiLock className="text-purple-500" />
+                <span>Confidential</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FiBarChart2 className="text-purple-500" />
+                <span>Personalized insights</span>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>

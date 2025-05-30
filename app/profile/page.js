@@ -11,22 +11,32 @@ export default function ProfilePage() {
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [editMode, setEditMode] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "" });
   const fileInputRef = useRef(null);
 
+  //Fetch user profile
   useEffect(() => {
+    setLoading(true);
     const fetchUser = async () => {
       try {
         const res = await fetch("/api/users");
-        if (!res.ok) throw new Error('Failed to fetch user data');
         const data = await res.json();
-        setUser(data);
+        if (res.ok) {
+          setUser(data);
+          setForm({ name: data.name, email:data.email});
+          setPreviewImage(data.previewImage || null);
+        }
+        else{
+          consol.error("Failed to fecth user data:", data.message);
+        }
       } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+        setError("Error fetching user:", err.message);
+      } 
+      setLoading(false);
     };
     fetchUser();
   }, []);
@@ -43,16 +53,69 @@ export default function ProfilePage() {
       setError('Please upload an image file');
       return;
     }
-
+    setError('');
+    setImageFile(file);
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreviewImage(reader.result);
-      // Add your image upload logic here
     };
-    
     reader.onerror = () => setError('Failed to read file');
     reader.readAsDataURL(file);
   };
+
+  const handleFormchange = (e) =>{
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEdit= () => setEditMode(true);
+  
+  const handleCancel = () =>{
+    setEditMode(false);
+    setForm({ name: user.name, email: user.email });
+    setPreviewImage(user.profileImage || null);
+    setImageFile(null);
+    setError('');
+    };
+
+    const handleSubmit = async (e) =>{
+      e.preventDefault();
+      setError('');
+      setLoading(true);
+      try {
+        const formData = new FormData();
+        formData.append("name", form.name);
+        formData.append("email", form.name);
+        if (imageFile) {
+          formData.append("profileImage", imageFile);
+        }
+        const res = await fetch("/api/users/update",{
+          method: "POST",
+          body: formData,
+        });
+        const data = await res.json();
+        if (res.ok){
+          setUser({
+            ...user,
+            name: form.name,
+            email: form.email,
+            profileImage: data.profileImage || previewImage,
+          });
+          setEditMode(false);
+          setImageFile(null);
+          setError('');
+        }else{
+          setError(data.message || "Failed to update profile");
+        }
+        
+      } catch (error) {
+        setError("Failed to update profile: " + err.message);
+      }finally{
+        setLoading(false);
+      }
+    }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-cyan-50 p-6 flex items-center justify-center relative">
@@ -72,15 +135,18 @@ export default function ProfilePage() {
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">{error}</div>
         )}
 
-        //Avatar
+        {/* Avatar */}
         <div className="flex flex-col items-center mb-8">
           <div 
-            className="relative group cursor-pointer"
-            onClick={() => fileInputRef.current?.click()}
-            role="button"
-            tabIndex={0}
-            onKeyPress={(e) => e.key === 'Enter' && fileInputRef.current?.click()}
+            className={`relative group ${editMode ? "cursor-pointer" : ""}`}
+            onClick={() => editMode && fileInputRef.current?.click()}
+            role={editMode ? "button" : undefined}
+            tabIndex={editMode ? 0 : -1}
+            onKeyPress={(e) => {
+              if (editMode && e.key === 'Enter') fileInputRef.current?.click();
+            }}
             aria-label="Change profile picture"
+            style={{ opacity: editMode ? 1 : 0.85 }}
           >
             <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center relative overflow-hidden">
               {previewImage ? (
@@ -95,9 +161,11 @@ export default function ProfilePage() {
                   {user?.name?.[0]?.toUpperCase() || '?'}
                 </span>
               )}
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <FiCamera className="text-white text-2xl" />
-              </div>
+              {editMode && (
+                <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <FiCamera className="text-white text-2xl" />
+                </div>
+              )}
             </div>
             <input
               type="file"
@@ -106,6 +174,7 @@ export default function ProfilePage() {
               className="hidden"
               accept="image/*"
               aria-hidden="true"
+              disabled={!editMode}
             />
           </div>
         </div>
@@ -113,27 +182,78 @@ export default function ProfilePage() {
         {loading ? (
           <p className="text-center text-gray-500 animate-pulse">Loading profile...</p>
         ) : user ? (
-          <div className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-4">
               <div className="bg-gray-50 p-4 rounded-lg transition hover:bg-gray-100">
                 <p className="text-sm text-gray-500 mb-1">Name</p>
-                <p className="text-gray-800 font-medium">{user.name}</p>
+                {editMode ? (
+                  <input
+                    type="text"
+                    name="name"
+                    value={form.name}
+                    onChange={handleFormChange}
+                    className="w-full px-3 py-2 border rounded"
+                    required
+                    autoFocus
+                  />
+                ) : (
+                  <p className="text-gray-800 font-medium">{user.name}</p>
+                )}
               </div>
               <div className="bg-gray-50 p-4 rounded-lg transition hover:bg-gray-100">
                 <p className="text-sm text-gray-500 mb-1">Email</p>
-                <p className="text-gray-800 font-medium">{user.email}</p>
+                {editMode ? (
+                  <input
+                    type="email"
+                    name="email"
+                    value={form.email}
+                    onChange={handleFormChange}
+                    className="w-full px-3 py-2 border rounded"
+                    required
+                  />
+                ) : (
+                  <p className="text-gray-800 font-medium">{user.email}</p>
+                )}
               </div>
             </div>
-
-            <button
-              onClick={handleLogout}
-              className="w-full py-3 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold flex items-center justify-center gap-2 transition-colors"
-              aria-label="Log out"
-            >
-              <FiLogOut className="text-lg" />
-              Log Out
-            </button>
-          </div>
+            <div className="flex gap-2 mt-4">
+              {editMode ? (
+                <>
+                  <button
+                    type="submit"
+                    className="flex-1 py-3 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-semibold flex items-center justify-center gap-2 transition-all"
+                    disabled={loading}
+                  >
+                    {loading ? "Saving..." : "Save"}
+                  </button>
+                  <button
+                    type="button"
+                    className="flex-1 py-3 rounded-lg bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold transition-all"
+                    onClick={handleCancel}
+                    disabled={loading}
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleEdit}
+                  className="flex-1 py-3 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-semibold transition-all"
+                >
+                  Edit Profile
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="flex-1 py-3 rounded-lg bg-red-500 hover:bg-red-600 text-white font-semibold flex items-center justify-center gap-2 transition-colors"
+              >
+                <FiLogOut className="text-lg" />
+                Log Out
+              </button>
+            </div>
+          </form>
         ) : (
           <p className="text-center text-gray-500">Failed to load profile</p>
         )}
