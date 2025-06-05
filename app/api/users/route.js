@@ -1,19 +1,19 @@
 import dbConnect from "@/app/database/mongodb";
-import User from "@/app/models/User";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../[...nextauth]/route";
+import User from "@/app/models/User"; 
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
   try {
     await dbConnect();
 
-    const session = await getServerSession(authOptions);
-    if(!session?.user?.email){
-      return NextResponse.json({ message:"Unauthorized"}, {status:401});
+    const { searchParams } = new URL(req.url);
+    const email = searchParams.get("email");
+
+    if (!email) {
+      return NextResponse.json({ message: "Email is required" }, { status: 400 });
     }
 
-    const user = await User.findOne({ email: session.user.email }).select("name email");
+    const user = await User.findOne({ email }).select("name email profileImage");
 
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
@@ -22,6 +22,6 @@ export async function GET(req) {
     return NextResponse.json(user);
   } catch (error) {
     console.error("Error fetching user:", error);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
 }

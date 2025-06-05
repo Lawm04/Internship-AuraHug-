@@ -27,6 +27,7 @@ export default function Login() {
 
       if (res.ok) {
         console.log("Login successful");
+        localStorage.setItem("isAuthenticated", "true");
         router.push("/dashboard");
       } else {
         setError(data.message);

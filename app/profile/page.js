@@ -20,105 +20,112 @@ export default function ProfilePage() {
 
   //Fetch user profile
   useEffect(() => {
-    setLoading(true);
+    if (typeof window === "undefined") return;
+
+    const email = localStorage.getItem("userEmail");
+    if (!email) {
+      router.push("/login");
+      return;
+    }
+
     const fetchUser = async () => {
+      setLoading(true);
       try {
-        const res = await fetch("/api/users");
+        const res = await fetch(`/api/users?email=${email}`);
         const data = await res.json();
         if (res.ok) {
           setUser(data);
-          setForm({ name: data.name, email:data.email});
-          setPreviewImage(data.previewImage || null);
-        }
-        else{
-          consol.error("Failed to fecth user data:", data.message);
+          setForm({ name: data.name, email: data.email });
+          setPreviewImage(data.profileImage || null);
+        } else {
+          setError(data.message || "Failed to fetch user");
         }
       } catch (err) {
-        setError("Error fetching user:", err.message);
-      } 
-      setLoading(false);
+        console.error("Error fetching user:", err);
+        setError("Error fetching user: " + err.message);
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchUser();
-  }, []);
+  }, [router]);
 
   const handleLogout = () => {
-    router.push('/login');
+    localStorage.removeItem("userEmail");
+    router.push("/login");
   };
 
   const handleImageUpload = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      setError('Please upload an image file');
+    if (!file.type.startsWith("image/")) {
+      setError("Please upload an image file");
       return;
     }
-    setError('');
+
     setImageFile(file);
     const reader = new FileReader();
     reader.onloadend = () => {
       setPreviewImage(reader.result);
     };
-    reader.onerror = () => setError('Failed to read file');
+    reader.onerror = () => setError("Failed to read file");
     reader.readAsDataURL(file);
   };
 
-  const handleFormchange = (e) =>{
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+  const handleFormChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleEdit= () => setEditMode(true);
-  
-  const handleCancel = () =>{
+  const handleEdit = () => setEditMode(true);
+
+  const handleCancel = () => {
     setEditMode(false);
     setForm({ name: user.name, email: user.email });
     setPreviewImage(user.profileImage || null);
     setImageFile(null);
-    setError('');
-    };
+    setError("");
+  };
 
-    const handleSubmit = async (e) =>{
-      e.preventDefault();
-      setError('');
-      setLoading(true);
-      try {
-        const formData = new FormData();
-        formData.append("name", form.name);
-        formData.append("email", form.name);
-        if (imageFile) {
-          formData.append("profileImage", imageFile);
-        }
-        const res = await fetch("/api/users/update",{
-          method: "POST",
-          body: formData,
-        });
-        const data = await res.json();
-        if (res.ok){
-          setUser({
-            ...user,
-            name: form.name,
-            email: form.email,
-            profileImage: data.profileImage || previewImage,
-          });
-          setEditMode(false);
-          setImageFile(null);
-          setError('');
-        }else{
-          setError(data.message || "Failed to update profile");
-        }
-        
-      } catch (error) {
-        setError("Failed to update profile: " + err.message);
-      }finally{
-        setLoading(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("name", form.name);
+      formData.append("email", form.email);
+      if (imageFile) {
+        formData.append("profileImage", imageFile);
       }
+
+      const res = await fetch("/api/users/update", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUser({
+          ...user,
+          name: form.name,
+          email: form.email,
+          profileImage: data.profileImage || previewImage,
+        });
+        setEditMode(false);
+        setImageFile(null);
+      } else {
+        setError(data.message || "Failed to update profile");
+      }
+    } catch (err) {
+      setError("Failed to update profile: " + err.message);
+    } finally {
+      setLoading(false);
     }
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-cyan-50 p-6 flex items-center justify-center relative">
+<div className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-cyan-50 p-6 flex items-center justify-center relative">
       <div className="absolute top-6 left-6 z-10">
         <button
           onClick={() => router.back()}
@@ -137,7 +144,7 @@ export default function ProfilePage() {
 
         {/* Avatar */}
         <div className="flex flex-col items-center mb-8">
-          <div 
+          <div
             className={`relative group ${editMode ? "cursor-pointer" : ""}`}
             onClick={() => editMode && fileInputRef.current?.click()}
             role={editMode ? "button" : undefined}
@@ -150,9 +157,9 @@ export default function ProfilePage() {
           >
             <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center relative overflow-hidden">
               {previewImage ? (
-                <img 
-                  src={previewImage} 
-                  alt="Profile" 
+                <img
+                  src={previewImage}
+                  alt="Profile"
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />

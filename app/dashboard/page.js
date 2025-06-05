@@ -1,25 +1,18 @@
-import Dashboard from '@/components/Dashboard'
-import Login from '@/components/Login'
-import Main from '@/components/Main'
-import React from 'react'
+"use client";
 
+import { useEffect, useState } from "react";
+import Dashboard from "@/components/Dashboard";
+import Login from "@/components/Login";
 
-export default function Dashboardpage() {
+export default function DashboardPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(null); // null = loading
 
-    const isAunthenticated = true
+  useEffect(() => {
+    const loggedIn = localStorage.getItem("isAuthenticated");
+    setIsAuthenticated(loggedIn === "true");
+  }, []);
 
-    let children = (
-            <Login />
-        )
-    
+  if (isAuthenticated === null) return <p className="text-center mt-10">Loading...</p>;
 
-    if (isAunthenticated) {
-        children = (
-            <Dashboard />
-        )
-    }
-
-  return (
-    <Main>{children}</Main>
-  )  
+  return isAuthenticated ? <Dashboard /> : <Login />;
 }
