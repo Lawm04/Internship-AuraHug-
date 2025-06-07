@@ -2,7 +2,7 @@
 
 import { Fugaz_One } from "next/font/google";
 import React, { useEffect, useState } from "react";
-import Calender from './Calender';
+import Calender from "./Calender";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,14 @@ export default function Dashboard() {
           datasets: [
             {
               data: Object.values(moodData),
-              backgroundColor: ["#A8E6CF", "#FF8B94", "#FFD3B6", "#F8BBD0", "#D1C4E9","#B3CDE0"],
+              backgroundColor: [
+                "#A8E6CF",
+                "#FF8B94",
+                "#FFD3B6",
+                "#F8BBD0",
+                "#D1C4E9",
+                "#B3CDE0",
+              ],
               borderWidth: 1,
             },
           ],
@@ -112,44 +119,50 @@ export default function Dashboard() {
             Weekly Insights
           </h3>
 
-          {/* Green Progress Bar */}
-          <div className="relative w-full bg-green-100 rounded-full h-6 shadow flex items-center justify-center">
-            <div
-              className="absolute bg-green-300 h-6 rounded-full left-0"
-              style={{ width: "70%" }}
-            ></div>
-            <span className="text-sm text-white font-semibold z-10">
-              Mood improved by: 70%
-            </span>
-          </div>
+          {moodData ? (
+            <>
+              {Object.entries(moodData).map(([mood, count]) => {
+                const total = Object.values(moodData).reduce(
+                  (sum, val) => sum + val,
+                  0
+                );
+                const percent = Math.round((count / total) * 100);
 
-          {/* Red Progress Bar */}
-          <div className="relative w-full bg-red-100 rounded-full h-6 shadow flex items-center justify-center">
-            <div
-              className="absolute bg-red-300 h-6 rounded-full left-0"
-              style={{ width: "30%" }}
-            ></div>
-            <span className="text-sm text-white font-semibold z-10">
-              Averaged Mood: 30%
-            </span>
-          </div>
+                // Choose color based on mood (customize if needed)
+                const colorMap = {
+                  Happy: "green",
+                  Sad: "red",
+                  Neutral: "blue",
+                  Angry: "yellow",
+                  Excited: "purple",
+                  Calm: "cyan",
+                };
 
-          {/* Blue Progress Bar */}
-          <div className="relative w-full bg-blue-100 rounded-full h-6 shadow flex items-center justify-center">
-            <div
-              className="absolute bg-blue-300 h-6 rounded-full left-0"
-              style={{ width: "50%" }}
-            ></div>
-            <span className="text-sm text-white font-semibold z-10">
-              3/7 check-ins completed this week: 50%
-            </span>
-          </div>
+                const barColor = colorMap[mood] || "gray";
+
+                return (
+                  <div
+                    key={mood}
+                    className={`relative w-full bg-${barColor}-100 rounded-full h-6 shadow flex items-center justify-center`}
+                  >
+                    <div
+                      className={`absolute bg-${barColor}-400 h-6 rounded-full left-0`}
+                      style={{ width: `${percent}%` }}
+                    ></div>
+                    <span className="text-sm text-white font-semibold z-10">
+                      {mood}: {percent}%
+                    </span>
+                  </div>
+                );
+              })}
+            </>
+          ) : (
+            <p className="text-gray-500 text-center">Loading insights...</p>
+          )}
         </div>
       </div>
-      
-      <Calender />    
 
+      <Calender />
     </div>
-    
   );
 }

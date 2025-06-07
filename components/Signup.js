@@ -30,7 +30,7 @@ export default function Signup() {
 
       if (res.ok) {
         console.log("Signup successful");
-        router.push("/login");
+        router.push("/dashboard");
       } else {
         setError(data.message);
       }

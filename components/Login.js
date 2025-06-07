@@ -62,7 +62,7 @@ export default function Login() {
         <Button text="Submit" dark onClick={hadleLogin} />
       </div>
       <p className="text-center">
-        Don't have an account? <span className="text-indigo-600"  onClick={() => router.push("/signup")}
+        Don't have an account? <span className="text-indigo-600 cursor-pointer"  onClick={() => router.push("/signup")}
 >Sign up</span>
       </p>
     </div>

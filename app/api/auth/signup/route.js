@@ -17,7 +17,7 @@ export async function POST(request) {
       );
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;ZZZZZZZzZZZ
     if (!emailRegex.test(email)){
       return NextResponse.json(
         { message: "Invalid email format"},

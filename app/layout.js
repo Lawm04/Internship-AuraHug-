@@ -10,8 +10,8 @@ const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function RootLayout({ children }) {
   const pathname = usePathname();
-  const hideHeader = pathname === "/login" || pathname === "/signup";
-  const centerPage = pathname === "/login" || pathname === "/signup";
+  const hideHeader = ["/login", "/signup", "/"].includes(pathname);
+  const centerPage = ["/login", "/signup", "/"].includes(pathname);
 
   const header = (
     <header className="p-4 sm:p-8 flex items-center justify-between gap-4 bg-gray-300 w-full">
