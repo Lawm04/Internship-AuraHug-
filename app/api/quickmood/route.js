@@ -1,18 +1,24 @@
 import dbConnect from "@/app/database/mongodb";
 import QuickMood from "@/app/models/QuickMood";
+import User from "@/app/models/User";
 import { NextResponse } from "next/server";
 
 // POST: Save quick mood entry
 export async function POST(request) {
   try {
     await dbConnect();
-    const { mood, note, date } = await request.json();
+    const { mood, note, date, email } = await request.json();
 
-    if (!mood) {
-      return NextResponse.json({ message: "Mood is required" }, { status: 400 });
+    if (!mood || !email) {
+      return NextResponse.json({ message: "Mood and email are required" }, { status: 400 });
     }
 
-    const newEntry = new QuickMood({ mood, note, date });
+    const user = await User.findOne({ email });
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    const newEntry = new QuickMood({ mood, note, date, userId: user._id });
     await newEntry.save();
 
     return NextResponse.json({ message: "Quick mood saved" }, { status: 201 });
@@ -22,19 +28,42 @@ export async function POST(request) {
   }
 }
 
-// GET: Return summary data (e.g., for pie chart)
-export async function GET() {
+// GET: Return summary data for a specific user
+export async function GET(request) {
   try {
     await dbConnect();
-    const entries = await QuickMood.find();
+    const { searchParams } = new URL(request.url);
+    const email = searchParams.get("email");
 
-    const summary = {};
+    if (!email) {
+      return NextResponse.json({ message: "Email is required" }, { status: 400 });
+    }
 
-    entries.forEach(({ mood }) => {
-      summary[mood] = (summary[mood] || 0) + 1;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    const entries = await QuickMood.find({ userId: user._id });
+
+    const moodSummary = {};
+    const entryList = [];
+
+    entries.forEach((entry) => {
+      const { mood, date } = entry;
+      moodSummary[mood] = (moodSummary[mood] || 0) + 1;
+      entryList.push({ mood, date });
     });
 
-    return NextResponse.json(summary);
+    const weeklyCheckinCount = new Set(
+      entryList.map((entry) => new Date(entry.date).toDateString())
+    ).size;
+
+    return NextResponse.json({
+      summary: moodSummary,
+      weeklyCheckinCount,
+      entries: entryList,
+    });
   } catch (err) {
     console.error("Failed to fetch quick mood data:", err);
     return NextResponse.json({ message: "Failed to fetch quick mood data" }, { status: 500 });

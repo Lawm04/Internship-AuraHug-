@@ -6,6 +6,7 @@ const MoodSchema = new mongoose.Schema({
   gratitudes:{type:[String], default:[]},
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, },
   createdAt: { type: Date, default: Date.now },
+  email: { type: String, required: true },
 });
 
 export default mongoose.models.Mood || mongoose.model("Mood", MoodSchema);

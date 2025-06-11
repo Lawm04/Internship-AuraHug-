@@ -8,49 +8,30 @@ export async function POST(request) {
     await dbConnect();
     const { email, password } = await request.json();
 
-    // Validation
     if (!email || !password) {
-      return NextResponse.json(
-        { message: "All fields are required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: "Email and password required" }, { status: 400 });
     }
 
-    // Find user
     const user = await User.findOne({ email });
-    if (!user) {
-      return NextResponse.json(
-        { message: "Invalid credentials" },
-        { status: 401 }
-      );
+    if (!user || !user.password) {
+      return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
     }
 
-    // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return NextResponse.json(
-        { message: "Invalid credentials" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Invalid credentials" }, { status: 401 });
     }
 
-    return NextResponse.json(
-      {
-        message: "Logged in successfully",
-        user: {
-          id: user._id,
-          name: user.name,
-          email: user.email,
-        },
+    return NextResponse.json({
+      message: "Logged in successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
       },
-      { status: 200 }
-    );
-    
+    }, { status: 200 });
   } catch (error) {
     console.error("Login error:", error);
-    return NextResponse.json(
-      { message: "Error during login" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Error during login" }, { status: 500 });
   }
 }

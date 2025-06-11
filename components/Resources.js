@@ -1,65 +1,180 @@
 "use client";
 
-import React from 'react'
+import React from 'react';
 import { Fugaz_One } from 'next/font/google';
+import { FiActivity, FiHeadphones, FiMusic, FiHeart, FiExternalLink } from 'react-icons/fi';
+import { motion } from 'framer-motion';
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
-export default function Resources() {
-  return (
-    <div className="bg-gray-50 min-h-screen py-12 px-6">
-      <h1 className={`text-4xl font-bold text-center mb-10 ${fugaz.className}`}>
-        Helpful Resources
-      </h1>
-
-      <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-        {/* Stress & Mindfulness */}
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
-          <h2 className={`text-2xl font-semibold mb-4 ${fugaz.className}`}>
-            Stress & Mindfulness
-          </h2>
-          <ul className="list-disc list-inside text-gray-700 space-y-2">
-            <li><a href="https://www.apa.org/topics/stress" target="_blank" className="text-blue-600 hover:underline">APA – Stress Management</a></li>
-            <li><a href="https://www.health.harvard.edu/mind-and-mood/mindfulness-meditation" target="_blank" className="text-blue-600 hover:underline">Harvard – Mindfulness Meditation</a></li>
-            <li><a href="https://www.mayoclinic.org/tests-procedures/meditation/in-depth/meditation/art-20045858" target="_blank" className="text-blue-600 hover:underline">Mayo Clinic – Meditation Guide</a></li>
-          </ul>
-        </div>
-
-        {/* Guided Meditation Platforms */}
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
-          <h2 className={`text-2xl font-semibold mb-4 ${fugaz.className}`}>
-            Guided Meditation Platforms
-          </h2>
-          <ul className="list-disc list-inside text-gray-700 space-y-2">
-            <li><a href="https://insighttimer.com/" target="_blank" className="text-purple-600 hover:underline">Insight Timer</a></li>
-            <li><a href="https://www.uclahealth.org/marc/mindful-meditations" target="_blank" className="text-purple-600 hover:underline">UCLA Mindful</a></li>
-            <li><a href="https://www.youtube.com/user/Getsomeheadspace" target="_blank" className="text-purple-600 hover:underline">Headspace (YouTube)</a></li>
-          </ul>
-        </div>
-
-        {/* Media & Sounds */}
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
-          <h2 className={`text-2xl font-semibold mb-4 ${fugaz.className}`}>
-            Media & Sounds
-          </h2>
-          <ul className="list-disc list-inside text-gray-700 space-y-2">
-            <li><a href="https://freesound.org/" target="_blank" className="text-green-600 hover:underline">FreeSound – Meditation Audio</a></li>
-            <li><a href="https://mixkit.co/free-stock-music/meditation/" target="_blank" className="text-green-600 hover:underline">Mixkit – Free Meditation Music</a></li>
-            <li><a href="https://unsplash.com/" target="_blank" className="text-green-600 hover:underline">Unsplash – Relaxing Visuals</a></li>
-          </ul>
-        </div>
-
-        {/* Mental Health Support */}
-        <div className="bg-white p-6 rounded-lg shadow hover:shadow-md transition">
-          <h2 className={`text-2xl font-semibold mb-4 ${fugaz.className}`}>
-            Mental Health Support
-          </h2>
-          <ul className="list-disc list-inside text-gray-700 space-y-2">
-            <li><a href="https://www.mhanational.org/" target="_blank" className="text-red-600 hover:underline">Mental Health America</a></li>
-            <li><a href="https://www.befrienders.org/" target="_blank" className="text-red-600 hover:underline">Befrienders Worldwide</a></li>
-            <li><a href="https://www.7cups.com/" target="_blank" className="text-red-600 hover:underline">7 Cups – Emotional Support</a></li>
-          </ul>
-        </div>
+const ResourceCard = ({ title, items, color, icon }) => (
+  <motion.div
+    whileHover={{ y: -10, boxShadow: "0 20px 30px -15px rgba(0, 0, 0, 0.1)" }}
+    className={`bg-white p-6 rounded-2xl shadow-lg border-t-4 ${color} transition-all duration-300`}
+  >
+    <div className="flex items-center gap-3 mb-5">
+      <div className={`p-3 rounded-xl ${color.replace('border-t-', 'bg-')} bg-opacity-10`}>
+        {icon}
       </div>
-    </div>  )
+      <h2 className={`text-2xl font-bold ${fugaz.className}`}>
+        {title}
+      </h2>
+    </div>
+    
+    <ul className="space-y-4">
+      {items.map((item, index) => (
+        <li key={index} className="flex items-start">
+          <div className="w-1.5 h-1.5 rounded-full bg-gray-400 mt-2.5 mr-3 flex-shrink-0"></div>
+          <a 
+            href={item.link} 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="group flex items-center justify-between w-full text-gray-700 hover:text-purple-600 transition-colors"
+          >
+            <span className="flex-1">{item.label}</span>
+            <FiExternalLink className="text-gray-400 group-hover:text-purple-600 transition-colors" />
+          </a>
+        </li>
+      ))}
+    </ul>
+  </motion.div>
+);
+
+export default function Resources() {
+  const categories = [
+    {
+      title: "Stress & Mindfulness",
+      color: "border-t-purple-500",
+      icon: <FiActivity className="text-purple-600 text-xl" />,
+      items: [
+        { label: "APA – Stress Management", link: "https://www.apa.org/topics/stress" },
+        { label: "Harvard – Mindfulness Meditation", link: "https://www.health.harvard.edu/mind-and-mood/mindfulness-meditation" },
+        { label: "Mayo Clinic – Meditation Guide", link: "https://www.mayoclinic.org/tests-procedures/meditation/in-depth/meditation/art-20045858" }
+      ]
+    },
+    {
+      title: "Guided Meditation Platforms",
+      color: "border-t-blue-500",
+      icon: <FiHeadphones className="text-blue-600 text-xl" />,
+      items: [
+        { label: "Insight Timer", link: "https://insighttimer.com/" },
+        { label: "UCLA Mindful", link: "https://www.uclahealth.org/marc/mindful-meditations" },
+        { label: "Headspace (YouTube)", link: "https://www.youtube.com/user/Getsomeheadspace" }
+      ]
+    },
+    {
+      title: "Media & Sounds",
+      color: "border-t-emerald-500",
+      icon: <FiMusic className="text-emerald-600 text-xl" />,
+      items: [
+        { label: "FreeSound – Meditation Audio", link: "https://freesound.org/" },
+        { label: "Mixkit – Free Meditation Music", link: "https://mixkit.co/free-stock-music/meditation/" },
+        { label: "Unsplash – Relaxing Visuals", link: "https://unsplash.com/" }
+      ]
+    },
+    {
+      title: "Mental Health Support",
+      color: "border-t-rose-500",
+      icon: <FiHeart className="text-rose-600 text-xl" />,
+      items: [
+        { label: "Mental Health America", link: "https://www.mhanational.org/" },
+        { label: "Befrienders Worldwide", link: "https://www.befrienders.org/" },
+        { label: "7 Cups – Emotional Support", link: "https://www.7cups.com/" }
+      ]
+    }
+  ];
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 py-12 px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent ${fugaz.className}`}
+          >
+            Helpful Resources
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-600 max-w-2xl mx-auto text-lg"
+          >
+            Curated tools and resources to support your mental wellness journey
+          </motion.p>
+        </div>
+
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="grid md:grid-cols-2 gap-8"
+        >
+          {categories.map((category, index) => (
+            <motion.div key={index} variants={item}>
+              <ResourceCard 
+                title={category.title}
+                items={category.items}
+                color={category.color}
+                icon={category.icon}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mt-16 bg-gradient-to-r from-purple-100 to-indigo-100 p-6 rounded-2xl border border-purple-200"
+        >
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="bg-purple-600 p-4 rounded-xl text-white">
+              <FiHeart className="text-2xl" />
+            </div>
+            <div className="text-center md:text-left">
+              <h3 className="text-xl font-bold text-purple-800 mb-2">Need immediate help?</h3>
+              <p className="text-gray-700 mb-4">
+                If you're in crisis, reach out to these 24/7 support services
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <a 
+                  href="https://suicidepreventionlifeline.org/" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white text-purple-700 rounded-lg font-medium border border-purple-200 hover:bg-purple-50 transition flex items-center gap-2"
+                >
+                  National Suicide Prevention Lifeline
+                </a>
+                <a 
+                  href="https://www.crisistextline.org/" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-white text-purple-700 rounded-lg font-medium border border-purple-200 hover:bg-purple-50 transition flex items-center gap-2"
+                >
+                  Crisis Text Line
+                </a>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
 }

@@ -13,18 +13,27 @@ const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function Dashboard() {
   const router = useRouter();
-  const [moodData, setMoodData] = useState(null);
+  const [moodData, setMoodData] = useState({});
+  const [entries, setEntries] = useState([]);
+  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
+    const email = localStorage.getItem("userEmail");
+    if (!email) return;
+    setUserEmail(email);
+
     const fetchMoodData = async () => {
       try {
-        const res = await fetch("/api/quickmood");
+        const res = await fetch(`/api/quickmood?email=${email}`);
         const data = await res.json();
-        setMoodData(data);
+
+        setMoodData(data.summary || {});
+        setEntries(data.entries || []);
       } catch (err) {
-        console.error("Failed to load mood data ", err);
+        console.error("Failed to load mood data", err);
       }
     };
+
     fetchMoodData();
   }, []);
 
@@ -58,24 +67,33 @@ export default function Dashboard() {
     },
   };
 
+  const today = new Date();
+  const checkInDays = new Set(
+    entries
+      .filter((e) => {
+        const d = new Date(e.date);
+        return (today - d) / (1000 * 60 * 60 * 24) <= 6;
+      })
+      .map((e) => new Date(e.date).toDateString())
+  );
+  const checkInCount = checkInDays.size;
+  const checkInPercent = Math.round((checkInCount / 7) * 100);
+
   return (
     <div className="flex flex-col flex-1 gap-8 sm:gap-12 md:gap-16">
       <section className="py-12 px-6">
         <h5
-          className={
-            "text-2xl sm:text-3xl md:text-7xl text-center " + fugaz.className
-          }
+          className={`text-2xl sm:text-3xl md:text-7xl text-center ${fugaz.className}`}
         >
-          <span className="textGradient">Welcome back! </span>Here's your{" "}
+          <span className="textGradient">Welcome back! </span>Here's your {" "}
           <span className="textGradient">progress</span> today?
         </h5>
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Breathing Exercises */}
+
+        <div className="grid md:grid-cols-2 gap-6 mt-6">
           <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition">
             <h3 className="text-2xl font-semibold mb-4">Quick Mood Tracking</h3>
             <p className="text-gray-700 mb-4">
-              Easily log your mood in seconds to recognize emotional patterns
-              over time.
+              Easily log your mood in seconds to recognize emotional patterns over time.
             </p>
             <button
               onClick={() => router.push("/moodtracking")}
@@ -85,12 +103,10 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {/* Guided Meditations */}
           <div className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition">
             <h3 className="text-2xl font-semibold mb-4">Daily Check-in</h3>
             <p className="text-gray-700 mb-4">
-              Take a moment to reflect on your feelings, energy, and gratitude
-              each day.
+              Take a moment to reflect on your feelings, energy, and gratitude each day.
             </p>
             <button
               onClick={() => router.push("/daily")}
@@ -102,8 +118,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <div className="flex flex-col md:flex-row gap-8 mt-8 bg-white rounded-lg shadow-md p-6">
-        {/* Pie Chart Section */}
+      <div className="flex flex-col md:flex-row gap-8 bg-white rounded-lg shadow-md p-6">
         <div className="w-full md:w-1/2 flex flex-col items-center">
           <h3 className="text-2xl font-semibold mb-4">Mood Distribution</h3>
           {pieData ? (
@@ -113,49 +128,40 @@ export default function Dashboard() {
           )}
         </div>
 
-        {/* Progress Bars Section */}
         <div className="w-full md:w-1/2 flex flex-col justify-center gap-4">
           <h3 className="text-2xl font-bold text-gray-700 mb-4 text-center">
             Weekly Insights
           </h3>
 
-          {moodData ? (
-            <>
-              {Object.entries(moodData).map(([mood, count]) => {
-                const total = Object.values(moodData).reduce(
-                  (sum, val) => sum + val,
-                  0
-                );
-                const percent = Math.round((count / total) * 100);
+          <div className="relative w-full bg-indigo-100 rounded-full h-6 shadow flex items-center justify-center">
+            <div
+              className="absolute bg-indigo-500 h-6 rounded-full left-0"
+              style={{ width: `${checkInPercent}%` }}
+            ></div>
+            <span className="text-sm text-white font-semibold z-10">
+              {checkInCount}/7 Check-ins this week
+            </span>
+          </div>
 
-                // Choose color based on mood (customize if needed)
-                const colorMap = {
-                  Happy: "green",
-                  Sad: "red",
-                  Neutral: "blue",
-                  Angry: "yellow",
-                  Excited: "purple",
-                  Calm: "cyan",
-                };
-
-                const barColor = colorMap[mood] || "gray";
-
-                return (
+          {moodData && Object.keys(moodData).length > 0 ? (
+            Object.entries(moodData).map(([mood, count]) => {
+              const total = Object.values(moodData).reduce((sum, val) => sum + val, 0);
+              const percent = Math.round((count / total) * 100);
+              return (
+                <div
+                  key={mood}
+                  className="relative w-full bg-gray-100 rounded-full h-6 shadow"
+                >
                   <div
-                    key={mood}
-                    className={`relative w-full bg-${barColor}-100 rounded-full h-6 shadow flex items-center justify-center`}
-                  >
-                    <div
-                      className={`absolute bg-${barColor}-400 h-6 rounded-full left-0`}
-                      style={{ width: `${percent}%` }}
-                    ></div>
-                    <span className="text-sm text-white font-semibold z-10">
-                      {mood}: {percent}%
-                    </span>
-                  </div>
-                );
-              })}
-            </>
+                    className="absolute bg-gray-400 h-6 rounded-full left-0"
+                    style={{ width: `${percent}%` }}
+                  ></div>
+                  <span className="absolute inset-0 flex justify-center items-center text-sm text-white font-semibold z-10">
+                    {mood}: {percent}%
+                  </span>
+                </div>
+              );
+            })
           ) : (
             <p className="text-gray-500 text-center">Loading insights...</p>
           )}

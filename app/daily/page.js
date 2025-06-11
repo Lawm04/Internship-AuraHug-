@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Fugaz_One } from "next/font/google";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -36,6 +36,16 @@ export default function DailyCheckIn() {
       return;
     }
 
+    const email =
+      typeof window !== "undefined"
+        ? localStorage.getItem("userEmail")
+        : null;
+
+    if (!email) {
+      setError("You must be logged in to submit your mood.");
+      return;
+    }
+
     try {
       const res = await fetch("/api/mood", {
         method: "POST",
@@ -44,15 +54,14 @@ export default function DailyCheckIn() {
           mood: moods[mood].label,
           energy,
           gratitudes,
-          email: "yexlawmveung@gmail.com",
+          email,
         }),
       });
 
       if (!res.ok) throw new Error("Failed to save check-in");
-      
+
       setSubmitted(true);
       setError("");
-
     } catch (err) {
       console.error("Error saving mood:", err);
       setError(err.message || "Failed to save check-in");
@@ -61,17 +70,6 @@ export default function DailyCheckIn() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 p-4 sm:p-8 relative">
-      <div className="absolute top-6 left-6">
-        <motion.button
-          onClick={() => router.push("/dashboard")}
-          className="flex items-center gap-2 text-indigo-600 hover:text-indigo-800 transition-colors group"
-          whileHover={{ x: -5 }}
-          aria-label="Return to dashboard"
-        >
-          <FiArrowLeft className="text-lg transition-transform group-hover:-translate-x-1" />
-          <span className="font-medium">Dashboard</span>
-        </motion.button>
-      </div>
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
