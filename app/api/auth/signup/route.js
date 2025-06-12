@@ -24,7 +24,7 @@ export async function POST(request) {
       );
     }
 
-    // ✅ Hash the password before saving
+    //  Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
