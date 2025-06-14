@@ -18,7 +18,7 @@ export async function POST(request) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
-    const newEntry = new QuickMood({ mood, note, date, userId: user._id });
+    const newEntry = new QuickMood({ mood, note, date, userId: user._id, email });
     await newEntry.save();
 
     return NextResponse.json({ message: "Quick mood saved" }, { status: 201 });

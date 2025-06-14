@@ -1,16 +1,16 @@
 "use client";
 
 import { Fugaz_One } from "next/font/google";
-import React from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { motion } from "framer-motion";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function Signup() {
   const router = useRouter();
-  
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,35 +41,77 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex flex-col flex-1 justify-center items-center gap-4">
-      <h3 className={" text-4xl sm:text-5xl md:text-6xl " + fugaz.className}>
-        Signup
-      </h3>
-      {error && <p className="text-red-500">{error}</p>}
-      <input
+    <motion.div
+      className="flex flex-col flex-1 justify-center items-center gap-4 text-gray-800"
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+    >
+      <motion.h3
+        className={`text-4xl sm:text-5xl md:text-6xl text-indigo-800 ${fugaz.className}`}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        Sign up
+      </motion.h3>
+
+      {error && (
+        <motion.p
+          className="text-red-500"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          {error}
+        </motion.p>
+      )}
+
+      <motion.input
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="w-full max-w-[400px] mx-auto px-3 duration-200 hover:border-indigo-600 focus:border-indigo-600 py-2  sm:py-2 border border-solid border-indigo-400 rounded-full outline-none"
+        className="w-full max-w-[400px] mx-auto px-3 py-2 border border-indigo-400 rounded-full outline-none hover:border-indigo-600 focus:border-indigo-600"
         placeholder="Name"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.3 }}
       />
-      <input
+      <motion.input
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className="w-full max-w-[400px] mx-auto px-3 duration-200 hover:border-indigo-600 focus:border-indigo-600 py-2  sm:py-2 border border-solid border-indigo-400 rounded-full outline-none"
+        className="w-full max-w-[400px] mx-auto px-3 py-2 border border-indigo-400 rounded-full outline-none hover:border-indigo-600 focus:border-indigo-600"
         placeholder="Email"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.4 }}
       />
-      <input
+      <motion.input
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className="w-full max-w-[400px] mx-auto px-3 duration-200 hover:border-indigo-600 focus:border-indigo-600 py-2  sm:py-2 border border-solid border-indigo-400 rounded-full outline-none"
+        className="w-full max-w-[400px] mx-auto px-3 py-2 border border-indigo-400 rounded-full outline-none hover:border-indigo-600 focus:border-indigo-600"
         placeholder="Password"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.5 }}
       />
-      <div className="max-w-[400px] w-full flex justify-center">
+
+      <motion.div
+        className="max-w-[400px] w-full flex justify-center"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+      >
         <Button text="Submit" dark onClick={handleSignup} />
-      </div>
-      <p className="text-center">
+      </motion.div>
+
+      <motion.p
+        className="text-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.7 }}
+      >
         Already have an account?{" "}
         <span
           className="text-indigo-600 cursor-pointer"
@@ -77,7 +119,7 @@ export default function Signup() {
         >
           Login
         </span>
-      </p>
-    </div>
+      </motion.p>
+    </motion.div>
   );
 }

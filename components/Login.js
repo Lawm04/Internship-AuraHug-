@@ -40,13 +40,13 @@ export default function Login() {
 
   return (
     <motion.div
-      className="flex flex-col flex-1 justify-center items-center gap-4"
+      className="flex flex-col flex-1 justify-center items-center gap-4 text-gray-800"
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
     >
       <motion.h3
-        className={"text-4xl sm:text-5xl md:text-6xl " + fugaz.className}
+        className={`text-4xl sm:text-5xl md:text-6xl text-indigo-800 ${fugaz.className}`}
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}

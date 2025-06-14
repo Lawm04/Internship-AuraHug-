@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiCheckCircle, FiEdit2, FiArrowLeft } from "react-icons/fi";
+import { FiCheckCircle, FiEdit2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 
 const moods = [
@@ -24,7 +24,7 @@ export default function QuickMoodTracker() {
 
   const handleSubmit = async () => {
     if (!selected) return;
-
+  
     try {
       const res = await fetch("/api/quickmood", {
         method: "POST",
@@ -36,24 +36,24 @@ export default function QuickMoodTracker() {
           email: localStorage.getItem("userEmail"),
         }),
       });
-
+  
       if (!res.ok) {
         const errData = await res.json().catch(() => null);
         const errMsg = errData?.message || "Submission failed";
         console.error("Failed to save mood:", errMsg);
-        setError(errMsg);
+        setError(`Failed to save mood: ${errMsg}`);
         return;
-      }      
-
+      }
+  
       await res.json().catch(() => null); // optional: use if response has no body
       setSubmitted(true);
       setError("");
       setTimeout(() => router.push("/dashboard"), 3000);
     } catch (error) {
       console.error("Error submitting mood:", error.message || error);
-      setError(error.message || "Submission failed");
+      setError(`Failed to save mood: ${error.message || "Submission failed"}`);
     }
-  };
+  };  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 p-4 sm:p-6 text-white">
