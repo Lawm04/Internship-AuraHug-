@@ -4,8 +4,7 @@ import { Fugaz_One } from "next/font/google";
 import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { FiActivity, FiHeadphones } from "react-icons/fi";
-import { FiClock, FiLock, FiBarChart2 } from "react-icons/fi";
+import { FiActivity, FiHeadphones, FiClock, FiLock, FiBarChart2 } from "react-icons/fi";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
@@ -13,13 +12,13 @@ export default function StressReliefExercise() {
   const router = useRouter();
 
   return (
-    <div className={`min-h-screen bg-slate-50 font-sans ${fugaz.variable}`}>
+    <div className={`min-h-screen bg-white font-sans ${fugaz.variable}`}>
       {/* Categories Section */}
       <section className="py-16 px-6 max-w-6xl mx-auto">
         <motion.h2
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="text-4xl md:text-5xl font-bold text-center mb-12 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent ${fugaz.className}"
+          className={`text-4xl md:text-5xl font-bold text-center mb-12 text-indigo-800 ${fugaz.className}`}
         >
           Stress Relief Toolkit
         </motion.h2>
@@ -28,13 +27,13 @@ export default function StressReliefExercise() {
           {/* Breathing Exercises Card */}
           <motion.div
             whileHover={{ y: -5 }}
-            className="p-8 bg-white rounded-2xl shadow-md border border-slate-200 hover:border-purple-300 transition-all"
+            className="p-8 bg-white rounded-2xl shadow-md border border-indigo-100 hover:border-indigo-300 transition-all"
           >
             <div className="flex items-start gap-4 mb-6">
-              <div className="p-3 bg-purple-100 rounded-xl">
-                <FiActivity className="text-3xl text-purple-600" />
+              <div className="p-3 bg-indigo-100 rounded-xl">
+                <FiActivity className="text-3xl text-indigo-600" />
               </div>
-              <h2 className="text-2xl font-bold text-purple-800 font-fugaz">
+              <h2 className="text-2xl font-bold text-indigo-800">
                 Breathing Mastery
               </h2>
             </div>
@@ -46,7 +45,7 @@ export default function StressReliefExercise() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/bloom")}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 text-lg font-semibold text-white hover:from-purple-700 hover:to-blue-700 transition-all"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-lg font-semibold text-white hover:from-indigo-700 hover:to-purple-700 transition-all"
             >
               Begin Breathwork
             </motion.button>
@@ -55,13 +54,13 @@ export default function StressReliefExercise() {
           {/* Guided Meditations Card */}
           <motion.div
             whileHover={{ y: -5 }}
-            className="p-8 bg-white rounded-2xl shadow-md border border-slate-200 hover:border-blue-300 transition-all"
+            className="p-8 bg-white rounded-2xl shadow-md border border-indigo-100 hover:border-indigo-300 transition-all"
           >
             <div className="flex items-start gap-4 mb-6">
-              <div className="p-3 bg-blue-100 rounded-xl">
-                <FiHeadphones className="text-3xl text-blue-600" />
+              <div className="p-3 bg-indigo-100 rounded-xl">
+                <FiHeadphones className="text-3xl text-indigo-600" />
               </div>
-              <h2 className="text-2xl font-bold text-blue-800 font-fugaz">
+              <h2 className="text-2xl font-bold text-indigo-800">
                 Mindful Sessions
               </h2>
             </div>
@@ -73,7 +72,7 @@ export default function StressReliefExercise() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/relax")}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-lg font-semibold text-white hover:from-blue-700 hover:to-purple-700 transition-all"
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-lg font-semibold text-white hover:from-indigo-700 hover:to-purple-700 transition-all"
             >
               Start Meditation
             </motion.button>
@@ -84,8 +83,8 @@ export default function StressReliefExercise() {
       {/* Mental Quiz Section */}
       <section className="py-16 px-4 sm:px-6 bg-gradient-to-br from-indigo-50 to-purple-50 relative overflow-hidden">
         {/* Decorative elements */}
-        <div className="absolute top-20 -right-10 w-72 h-72 bg-purple-200 rounded-full opacity-40 blur-3xl"></div>
-        <div className="absolute bottom-10 -left-10 w-80 h-80 bg-amber-200 rounded-full opacity-30 blur-3xl"></div>
+        <div className="absolute top-20 -right-10 w-72 h-72 bg-indigo-200 rounded-full opacity-40 blur-3xl"></div>
+        <div className="absolute bottom-10 -left-10 w-80 h-80 bg-indigo-100 rounded-full opacity-30 blur-3xl"></div>
 
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.div
@@ -93,10 +92,10 @@ export default function StressReliefExercise() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="p-8 bg-gradient-to-br from-white to-purple-50 rounded-3xl border border-white shadow-xl backdrop-blur-sm"
+            className="p-8 bg-white rounded-3xl border border-indigo-100 shadow-xl backdrop-blur-sm"
           >
             <motion.div
-              className="mb-6 mx-auto w-24 h-24 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 shadow-lg"
+              className="mb-6 mx-auto w-24 h-24 flex items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 shadow-lg"
               animate={{
                 rotate: [0, 5, -5, 5, 0],
                 scale: [1, 1.05, 1],
@@ -111,7 +110,7 @@ export default function StressReliefExercise() {
             </motion.div>
 
             <div className="text-center mb-6">
-              <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-700 to-indigo-800 bg-clip-text text-transparent mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-indigo-800 mb-4">
                 Mental Wellness Check
               </h2>
               <p className="text-gray-700 mb-6 text-lg max-w-2xl mx-auto leading-relaxed">
@@ -124,11 +123,11 @@ export default function StressReliefExercise() {
               <motion.button
                 whileHover={{
                   scale: 1.05,
-                  boxShadow: "0 10px 25px -5px rgba(139, 92, 246, 0.4)",
+                  boxShadow: "0 10px 25px -5px rgba(99, 102, 241, 0.4)",
                 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => router.push("/mentalcheck")}
-                className="px-8 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-lg font-bold text-white hover:from-purple-700 hover:to-indigo-700 transition-all flex items-center justify-center gap-3 shadow-lg"
+                className="px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-lg font-bold text-white hover:from-indigo-700 hover:to-purple-700 transition-all flex items-center justify-center gap-3 shadow-lg"
               >
                 Start Assessment
                 <svg
@@ -150,15 +149,15 @@ export default function StressReliefExercise() {
 
             <div className="mt-8 flex flex-wrap justify-center gap-4 text-sm text-gray-600">
               <div className="flex items-center gap-2">
-                <FiClock className="text-purple-500" />
+                <FiClock className="text-indigo-500" />
                 <span>Only 5 minutes</span>
               </div>
               <div className="flex items-center gap-2">
-                <FiLock className="text-purple-500" />
+                <FiLock className="text-indigo-500" />
                 <span>Confidential</span>
               </div>
               <div className="flex items-center gap-2">
-                <FiBarChart2 className="text-purple-500" />
+                <FiBarChart2 className="text-indigo-500" />
                 <span>Personalized insights</span>
               </div>
             </div>
