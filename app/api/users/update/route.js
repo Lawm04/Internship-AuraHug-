@@ -47,6 +47,7 @@ async function parseMultipartFormData(req) {
 export async function POST(req) {
   try {
     await dbConnect();
+
     const contentType = req.headers.get("content-type") || "";
 
     let fields = {};
