@@ -3,6 +3,7 @@ import User from "@/app/models/User";
 import { NextResponse } from "next/server";
 import path from "path";
 import fs from "fs";
+import { Readable } from "stream";
 
 export const config = {
   api: {
@@ -11,51 +12,49 @@ export const config = {
 };
 
 // Parse multipart form data
-async function parseMultipartFormData(request) {
+async function parseMultipartFormData(req) {
   const busboy = (await import("busboy")).default;
 
-  return new Promise((resolve, reject) => {
-    const bb = busboy({ headers: Object.fromEntries(request.headers) });
-    const fields = {};
-    let fileData = null;
-    let fileName = null;
+  const headers = Object.fromEntries(req.headers.entries());
+  const bb = busboy({ headers });
 
+  const fields = {};
+  let fileData = null;
+  let fileName = null;
+
+  return new Promise((resolve, reject) => {
     bb.on("file", (_, file, info) => {
       fileName = info.filename;
       const chunks = [];
-
       file.on("data", (data) => chunks.push(data));
       file.on("end", () => {
         fileData = Buffer.concat(chunks);
       });
     });
 
-    bb.on("field", (name, value) => {
-      fields[name] = value;
+    bb.on("field", (name, val) => {
+      fields[name] = val;
     });
 
     bb.on("close", () => resolve({ fields, fileData, fileName }));
     bb.on("error", reject);
 
-    request.body.pipe(bb);
+    // Convert req.body (AsyncIterable<Uint8Array>) to Node stream
+    Readable.from(req.body).pipe(bb);
   });
 }
 
 export async function POST(req) {
   try {
     await dbConnect();
-
     const contentType = req.headers.get("content-type") || "";
+
     let fields = {};
     let fileData = null;
     let fileName = null;
 
     if (contentType.startsWith("multipart/form-data")) {
-      const parsed = await parseMultipartFormData({
-        headers: Object.fromEntries(req.headers),
-        body: req.body,
-      });
-
+      const parsed = await parseMultipartFormData(req);
       fields = parsed.fields;
       fileData = parsed.fileData;
       fileName = parsed.fileName;
@@ -70,7 +69,6 @@ export async function POST(req) {
     }
 
     const user = await User.findOne({ email });
-
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
