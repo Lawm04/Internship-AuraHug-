@@ -175,7 +175,7 @@ export default function Dashboard() {
               className="absolute bg-indigo-500 h-6 rounded-full left-0"
               style={{ width: `${checkInPercent}%` }}
             ></div>
-            <span className="text-sm text-white font-semibold z-10">
+            <span className="text-sm text-black font-semibold z-10">
               {checkInCount}/7 Check-ins this week
             </span>
           </motion.div>
@@ -193,10 +193,10 @@ export default function Dashboard() {
                   transition={{ delay: 0.5 + i * 0.1 }}
                 >
                   <div
-                    className="absolute bg-gray-400 h-6 rounded-full left-0"
+                    className="absolute bg-red-400 h-6 rounded-full left-0"
                     style={{ width: `${percent}%` }}
                   ></div>
-                  <span className="absolute inset-0 flex justify-center items-center text-sm text-white font-semibold z-10">
+                  <span className="absolute inset-0 flex justify-center items-center text-sm text-black font-semibold z-10">
                     {mood}: {percent}%
                   </span>
                 </motion.div>

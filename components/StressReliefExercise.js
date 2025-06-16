@@ -12,13 +12,13 @@ export default function StressReliefExercise() {
   const router = useRouter();
 
   return (
-    <div className={`min-h-screen bg-white font-sans ${fugaz.variable}`}>
+    <div className={`min-h-screen bg-white font-sans `}>
       {/* Categories Section */}
       <section className="py-16 px-6 max-w-6xl mx-auto">
         <motion.h2
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className={`text-4xl md:text-5xl font-bold text-center mb-12 text-indigo-800 ${fugaz.className}`}
+          className={`text-4xl md:text-5xl font-bold text-center mb-12 text-indigo-800 ${fugaz.variable}`}
         >
           Stress Relief Toolkit
         </motion.h2>
