@@ -60,7 +60,7 @@ export async function POST(request) {
       energy,
       gratitudes,
       userId: user._id,
-      email,
+      email:user.email,
     });
 
     await newMood.save();
