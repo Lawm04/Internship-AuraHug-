@@ -2,6 +2,7 @@
 
 import { Fugaz_One } from 'next/font/google';
 import React from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
@@ -9,9 +10,34 @@ const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] });
 
 export default function Contact() {
   const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
-  const handleSubmit = () => {
-    router.push('/thank-you');
+  const handleChange = (e) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (res.ok) {
+        router.push("/thank-you");
+      } else {
+        alert("Failed to send message");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      alert("Something went wrong");
+    }
   };
 
   return (
@@ -65,18 +91,30 @@ export default function Contact() {
           transition={{ delay: 0.5 }}
         >
           <input
+            name="name"
+            onChange={handleChange}
+            value={formData.name}
             className="w-full px-5 py-3 duration-200 border-2 border-indigo-200 rounded-full outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 placeholder:text-indigo-300"
             placeholder="Your Name"
           />
           <input
+            name="email"
+            onChange={handleChange}
+            value={formData.email}
             className="w-full px-5 py-3 duration-200 border-2 border-indigo-200 rounded-full outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 placeholder:text-indigo-300"
             placeholder="Your Email"
           />
           <input
+            name="subject"
+            onChange={handleChange}
+            value={formData.subject}
             className="w-full px-5 py-3 duration-200 border-2 border-indigo-200 rounded-full outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 placeholder:text-indigo-300"
             placeholder="Subject"
           />
           <textarea
+            name="message"
+            onChange={handleChange}
+            value={formData.message}
             className="w-full px-5 py-3 duration-200 border-2 border-indigo-200 rounded-2xl outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 placeholder:text-indigo-300"
             placeholder="Your Message"
             rows="4"
