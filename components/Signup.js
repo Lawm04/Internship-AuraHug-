@@ -6,7 +6,10 @@ import Button from "./Button";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
-const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
+const fugaz = Fugaz_One({ 
+  subsets: ["latin"], 
+  weight: '400' 
+});
 
 export default function Signup() {
   const router = useRouter();
