@@ -46,9 +46,16 @@ export default function Dashboard() {
       })
       .then((data) => {
         const remindersList = data?.reminders || [];
-        setReminders(remindersList);
 
-        remindersList.forEach((r) => {
+        // Hide reminders older than 1 hour
+        const now = Date.now();
+        const oneHour = 1 * 60 * 60 * 1000;
+        const filtered = remindersList.filter(
+          (r) => new Date(r.time).getTime() > now - oneHour
+        );
+        setReminders(filtered);
+
+        filtered.forEach((r) => {
           const when = new Date(r.time).getTime() - Date.now();
           if (when > 0) {
             setTimeout(() => notifyUser("Reminder", { body: r.message }), when);
@@ -128,8 +135,19 @@ export default function Dashboard() {
           <div className="flex items-center justify-between mb-6 pb-3 border-b border-indigo-50">
             <div className="flex items-center">
               <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-2 rounded-lg mr-3">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                  />
                 </svg>
               </div>
               <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent">
@@ -142,8 +160,19 @@ export default function Dashboard() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5 mr-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
               </svg>
               Add Reminder
             </motion.button>
@@ -157,30 +186,62 @@ export default function Dashboard() {
                   <motion.li
                     key={reminder._id}
                     className={`p-4 rounded-xl border-l-4 shadow-sm transition-all duration-300 group flex items-start
-                      ${isPast
-                        ? "bg-gray-50 border-gray-300 text-gray-500"
-                        : "bg-gradient-to-r from-blue-50 to-indigo-50 border-indigo-400 text-indigo-700 hover:shadow-md"}`}
+                      ${
+                        isPast
+                          ? "bg-gray-50 border-gray-300 text-gray-500"
+                          : "bg-gradient-to-r from-blue-50 to-indigo-50 border-indigo-400 text-indigo-700 hover:shadow-md"
+                      }`}
                     whileHover={{ x: 5 }}
                   >
-                    <div className={`mr-3 p-2 rounded-lg ${isPast ? "bg-gray-200" : "bg-indigo-100"}`}>
+                    <div
+                      className={`mr-3 p-2 rounded-lg ${
+                        isPast ? "bg-gray-200" : "bg-indigo-100"
+                      }`}
+                    >
                       {isPast ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-gray-500"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 13l4 4L19 7"
+                          />
                         </svg>
                       ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-indigo-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
                         </svg>
                       )}
                     </div>
                     <div className="flex-1">
-                      <div className={`font-medium flex items-center ${isPast ? "line-through" : ""}`}>
+                      <div
+                        className={`font-medium flex items-center ${
+                          isPast ? "line-through" : ""
+                        }`}
+                      >
                         {new Date(reminder.time).toLocaleString([], {
-                          weekday: 'short',
-                          month: 'short',
-                          day: 'numeric',
-                          hour: '2-digit',
-                          minute: '2-digit'
+                          weekday: "short",
+                          month: "short",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
                         })}
                         {!isPast && (
                           <span className="ml-2 bg-indigo-100 text-indigo-800 text-xs px-2 py-0.5 rounded-full">
@@ -188,7 +249,13 @@ export default function Dashboard() {
                           </span>
                         )}
                       </div>
-                      <p className={`mt-1.5 ${isPast ? "text-gray-600" : "text-gray-800"}`}>{reminder.message}</p>
+                      <p
+                        className={`mt-1.5 ${
+                          isPast ? "text-gray-600" : "text-gray-800"
+                        }`}
+                      >
+                        {reminder.message}
+                      </p>
                     </div>
                   </motion.li>
                 );
@@ -196,12 +263,26 @@ export default function Dashboard() {
             </ul>
           ) : (
             <div className="flex flex-col items-center py-10 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl border border-dashed border-indigo-200">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-16 w-16 text-indigo-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                />
               </svg>
-              <h3 className="text-xl font-medium text-indigo-800 mt-4">No reminders scheduled</h3>
+              <h3 className="text-xl font-medium text-indigo-800 mt-4">
+                No reminders scheduled
+              </h3>
               <p className="text-indigo-500 mt-2 text-center max-w-md">
-                You don't have any upcoming reminders. Add a new one to get started.
+                You don't have any upcoming reminders. Add a new one to get
+                started.
               </p>
               <motion.button
                 onClick={() => router.push("/set-reminder")}
@@ -209,8 +290,19 @@ export default function Dashboard() {
                 whileHover={{ scale: 1.05 }}
               >
                 Create your first reminder
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 ml-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </motion.button>
             </div>
@@ -230,7 +322,8 @@ export default function Dashboard() {
           >
             <h3 className="text-2xl font-semibold mb-4">Quick Mood Tracking</h3>
             <p className="text-gray-700 mb-4">
-              Easily log your mood in seconds to recognize emotional patterns over time.
+              Easily log your mood in seconds to recognize emotional patterns
+              over time.
             </p>
             <button
               onClick={() => router.push("/moodtracking")}
