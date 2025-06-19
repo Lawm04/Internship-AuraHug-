@@ -1,16 +1,11 @@
 export function ensurePermission() {
-  if (typeof Notification === "undefined") return;
-
-  if (Notification.permission === "default") {
+  if ("Notification" in window && Notification.permission !== "granted") {
     Notification.requestPermission();
   }
 }
 
 export function notifyUser(title, options) {
-  if (typeof Notification === "undefined") return;
-  if (Notification.permission === "granted") {
+  if ("Notification" in window && Notification.permission === "granted") {
     new Notification(title, options);
   }
 }
-
-    
