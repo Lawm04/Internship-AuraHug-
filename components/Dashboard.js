@@ -116,7 +116,7 @@ export default function Dashboard() {
     >
       <section className="py-12 px-6">
         <motion.h5
-          className={`text-2xl sm:text-3xl md:text-7xl text-center ${fugaz.className}`}
+          className={`text-2xl sm:text-3xl md:text-7xl text-center mb-8 ${fugaz.className}`}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
