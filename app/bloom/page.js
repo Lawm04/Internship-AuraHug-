@@ -12,7 +12,7 @@ const PHASES = [
   { label: "Exhale", duration: 5000, icon: "🍃", color: "from-indigo-600 to-indigo-700" },
 ];
 
-export default function page() {
+export default function BloomPage() {
   const [phaseIndex, setPhaseIndex] = useState(0);
   const [cycleCount, setCycleCount] = useState(0);
 

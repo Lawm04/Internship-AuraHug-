@@ -19,7 +19,7 @@ const ambientSounds = {
   forest: new Howl({ src: ['/sounds/forest.mp3'], loop: true })
 };
 
-export default function Page() {
+export default function RelaxPage() {
   const [timeLeft, setTimeLeft] = useState(300);
   const [isPlaying, setIsPlaying] = useState(false);
   const [sessionCompleted, setSessionCompleted] = useState(false);

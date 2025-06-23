@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
-export default function page() {
+export default function ThankYouPage() {
     const router = useRouter();
 
   return (
