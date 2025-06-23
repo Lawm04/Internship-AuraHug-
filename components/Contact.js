@@ -1,12 +1,13 @@
 "use client";
 
-import { Fugaz_One } from 'next/font/google';
-import React from 'react';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { Fugaz_One } from "next/font/google";
+import React from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
-const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] });
+const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
 export default function Contact() {
   const router = useRouter();
@@ -54,9 +55,11 @@ export default function Contact() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <img
-          src="images/floralbrain.jpg"
+        <Image
+          src="/images/floralbrain.jpg" // must be in public/images folder
           alt="Contact Us"
+          width={400} // customize to fit your layout
+          height={400}
           className="w-full max-w-md rounded-2xl shadow-xl border-4 border-indigo-100"
         />
       </motion.div>
