@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Fugaz_One } from "next/font/google";
 import { useRouter } from 'next/navigation';
 import { FiCamera, FiLogOut, FiArrowLeft } from 'react-icons/fi';
+import Image from "next/image";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
@@ -157,7 +158,7 @@ export default function ProfilePage() {
           >
             <div className="w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center relative overflow-hidden">
               {previewImage ? (
-                <img
+                <Image
                   src={previewImage}
                   alt="Profile"
                   className="w-full h-full object-cover"

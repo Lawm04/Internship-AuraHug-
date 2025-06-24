@@ -121,7 +121,7 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="textGradient">Welcome back! </span>Here's your{" "}
+          <span className="textGradient">Welcome back! </span>Here&rsquo;s your{" "}
           <span className="textGradient">progress</span> today?
         </motion.h5>
 
@@ -281,7 +281,7 @@ export default function Dashboard() {
                 No reminders scheduled
               </h3>
               <p className="text-indigo-500 mt-2 text-center max-w-md">
-                You don't have any upcoming reminders. Add a new one to get
+                You don&rsquo;t have any upcoming reminders. Add a new one to get
                 started.
               </p>
               <motion.button

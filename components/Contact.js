@@ -56,9 +56,9 @@ export default function Contact() {
         transition={{ duration: 0.6 }}
       >
         <Image
-          src="/images/floralbrain.jpg" // must be in public/images folder
+          src="/images/floralbrain.jpg" 
           alt="Contact Us"
-          width={400} // customize to fit your layout
+          width={400} 
           height={400}
           className="w-full max-w-md rounded-2xl shadow-xl border-4 border-indigo-100"
         />

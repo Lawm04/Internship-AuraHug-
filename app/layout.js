@@ -4,6 +4,8 @@ import { Fugaz_One, Open_Sans } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+
 
 const inter = Open_Sans({ subsets: ["latin"] });
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
@@ -67,9 +69,11 @@ export default function RootLayout({ children }) {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <div className="flex items-center space-x-3">
-              <img
+              <Image
                 src="/images/AuraHug.png"
                 alt="AuraHug Logo"
+                width={300}
+                height={300}
                 className="h-10 w-10 object-contain"
               />
               <span className={`text-xl font-bold text-indigo-700 ${fugaz.className}`}>

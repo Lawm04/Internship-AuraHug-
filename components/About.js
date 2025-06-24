@@ -3,6 +3,8 @@
 import { Fugaz_One } from 'next/font/google';
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from "next/image";
+
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] });
 
@@ -87,7 +89,7 @@ export default function About() {
           >
             <div className="relative">
               <div className="absolute -inset-4 bg-gradient-to-r from-indigo-400 to-blue-400 rounded-2xl blur-lg opacity-30"></div>
-              <img
+              <Image
                 src="/images/AuraHug.png"
                 alt="About AuraHug"
                 className="w-full max-w-md rounded-2xl shadow-xl relative z-10 border-4 border-white"
