@@ -29,9 +29,11 @@ export default function RootLayout({ children }) {
       <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between">
         <Link href="/profile" className="mb-4 sm:mb-0">
           <div className="flex items-center space-x-3">
-            <img
+            <Image
               src="/images/AuraHug.png"
               alt="AuraHug Logo"
+              width={300}
+              height={300}
               className="h-12 w-12 object-contain"
             />
             <span className={`text-2xl font-bold text-indigo-700 ${fugaz.className}`}>

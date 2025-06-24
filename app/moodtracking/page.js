@@ -83,7 +83,7 @@ export default function QuickMoodTracker() {
             Quick Mood Log
           </motion.h1>
           <p className="text-slate-300 max-w-md mx-auto">
-            Capture how you're feeling right now with one tap
+            Capture how you&aposre feeling right now with one tap
           </p>
         </div>
 
