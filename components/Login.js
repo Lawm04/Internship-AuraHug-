@@ -63,7 +63,7 @@ export default function Login() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-          You&apos;re one step away!
+          You&#39;re one step away!
       </motion.p>
 
       <motion.input
@@ -115,7 +115,7 @@ export default function Login() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7 }}
       >
-        Don&apos;t have an account?{" "}
+        Don&#39;t have an account?{" "}
         <span
           className="text-indigo-600 cursor-pointer"
           onClick={() => router.push("/signup")}
