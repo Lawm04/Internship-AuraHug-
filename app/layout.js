@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { Fugaz_One, Open_Sans } from "next/font/google";
@@ -32,8 +33,8 @@ export default function RootLayout({ children }) {
             <Image
               src="/images/AuraHug.png"
               alt="AuraHug Logo"
-              width={300}
-              height={300}
+              width={400}
+              height={400}
               className="h-12 w-12 object-contain"
             />
             <span className={`text-2xl font-bold text-indigo-700 ${fugaz.className}`}>
