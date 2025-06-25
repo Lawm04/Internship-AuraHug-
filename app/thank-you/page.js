@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ["400"] });
 
-export default function Page() {
+export default function ThankYouPage() {
     const router = useRouter();
 
   return (
@@ -15,7 +15,7 @@ export default function Page() {
         Thank You! 💜
       </h1>
       <p className="text-gray-600 mb-6 text-center max-w-md">
-       Your message has been received. We&#39;ll get back to you as soon as possible.
+       Your message has been received. We&apos;ll get back to you as soon as possible.
       </p>
       <button
         onClick={() => router.push("/dashboard")}

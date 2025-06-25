@@ -41,7 +41,7 @@ export default function RelaxPage() {
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [isPlaying]);
+  }, [isPlaying, ambientSound]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
