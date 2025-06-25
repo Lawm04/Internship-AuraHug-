@@ -1,7 +1,6 @@
 "use client";
 
-import React from 'react'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FaPlay, FaPause, FaRedo } from 'react-icons/fa';
 import { Howl } from 'howler';
@@ -23,25 +22,28 @@ export default function RelaxPage() {
   const [timeLeft, setTimeLeft] = useState(300);
   const [isPlaying, setIsPlaying] = useState(false);
   const [sessionCompleted, setSessionCompleted] = useState(false);
-  const [ambientSound, setAmbientSound] = useState(null);
   const [selectedSound, setSelectedSound] = useState('rain');
+  const [soundInstance, setSoundInstance] = useState(null);
 
   useEffect(() => {
+    let timer;
+
     if (isPlaying) {
-      const timer = setInterval(() => {
-        setTimeLeft((prev) => {
+      timer = setInterval(() => {
+        setTimeLeft(prev => {
           if (prev <= 1) {
             setIsPlaying(false);
             setSessionCompleted(true);
-            ambientSound?.stop();
+            soundInstance?.stop();
             return 0;
           }
           return prev - 1;
         });
       }, 1000);
-      return () => clearInterval(timer);
     }
-  }, [isPlaying, ambientSound]);
+
+    return () => clearInterval(timer);
+  }, [isPlaying]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -51,22 +53,23 @@ export default function RelaxPage() {
 
   const handleStart = () => {
     if (!isPlaying) {
+      const sound = ambientSounds[selectedSound];
+      sound.play();
+      setSoundInstance(sound);
       setIsPlaying(true);
-      ambientSounds[selectedSound]?.play();
-      setAmbientSound(ambientSounds[selectedSound]);
     }
   };
 
   const handlePause = () => {
     setIsPlaying(false);
-    ambientSound?.pause();
+    soundInstance?.pause();
   };
 
   const handleRestart = () => {
     setTimeLeft(300);
     setIsPlaying(false);
     setSessionCompleted(false);
-    ambientSound?.stop();
+    soundInstance?.stop();
   };
 
   return (

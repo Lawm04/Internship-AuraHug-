@@ -151,7 +151,7 @@ export default function Resources() {
             <div className="text-center md:text-left">
               <h3 className="text-xl font-bold text-indigo-800 mb-2">Need immediate help?</h3>
               <p className="text-gray-700 mb-4">
-                If you&#39;re in crisis, reach out to these 24/7 support services
+                If you&apos;re in crisis, reach out to these 24/7 support services
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <a 

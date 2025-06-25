@@ -115,7 +115,7 @@ export default function Login() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.7 }}
       >
-        Don&#39;t have an account?{" "}
+        Don&apos;t have an account?{" "}
         <span
           className="text-indigo-600 cursor-pointer"
           onClick={() => router.push("/signup")}

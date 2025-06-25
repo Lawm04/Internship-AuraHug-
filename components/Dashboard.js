@@ -121,7 +121,7 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <span className="textGradient">Welcome back! </span>Here&rsquo;s your{" "}
+          <span className="textGradient">Welcome back! </span>Here&apos;s your{" "}
           <span className="textGradient">progress</span> today?
         </motion.h5>
 

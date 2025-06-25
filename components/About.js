@@ -50,7 +50,7 @@ export default function About() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
-              At AuraHug, we believe everyone deserves a space to express and explore how they feel. Whether you're on a mental health journey or just trying to stay in tune with your moods, we're here to support you with a user-friendly, insightful experience.
+              At AuraHug, we believe everyone deserves a space to express and explore how they feel. Whether you&apos;re on a mental health journey or just trying to stay in tune with your moods, we&apos;re here to support you with a user-friendly, insightful experience.
             </motion.p>
             
             <motion.p 
