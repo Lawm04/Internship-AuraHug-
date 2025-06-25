@@ -63,7 +63,7 @@ export default function Login() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-          You&#39;re one step away!
+          You&apos;re one step away!
       </motion.p>
 
       <motion.input

@@ -281,7 +281,7 @@ export default function Dashboard() {
                 No reminders scheduled
               </h3>
               <p className="text-indigo-500 mt-2 text-center max-w-md">
-                You don&rsquo;t have any upcoming reminders. Add a new one to get
+                You don&apos;t have any upcoming reminders. Add a new one to get
                 started.
               </p>
               <motion.button
