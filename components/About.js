@@ -5,7 +5,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from "next/image";
 
-
 const fugaz = Fugaz_One({ subsets: ["latin"], weight: ['400'] });
 
 export default function About() {
@@ -92,6 +91,8 @@ export default function About() {
               <Image
                 src="/images/AuraHug.png"
                 alt="About AuraHug"
+                width={900} 
+                height={900}
                 className="w-full max-w-md rounded-2xl shadow-xl relative z-10 border-4 border-white"
               />
             </div>
