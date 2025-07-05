@@ -19,7 +19,7 @@ const ambientSounds = {
 };
 
 export default function RelaxPage() {
-  const [timeLeft, setTimeLeft] = useState(300);
+  const [timeLeft, setTimeLeft] = useState(300); // 5 mins
   const [isPlaying, setIsPlaying] = useState(false);
   const [sessionCompleted, setSessionCompleted] = useState(false);
   const [selectedSound, setSelectedSound] = useState('rain');
@@ -43,7 +43,7 @@ export default function RelaxPage() {
     }
 
     return () => clearInterval(timer);
-  }, [isPlaying]);
+  }, [isPlaying, soundInstance]);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -72,6 +72,21 @@ export default function RelaxPage() {
     soundInstance?.stop();
   };
 
+  const handleSoundChange = (newSound) => {
+    if (newSound !== selectedSound) {
+      soundInstance?.stop(); // Stop the current sound
+      setSelectedSound(newSound);
+      const nextSound = ambientSounds[newSound];
+
+      if (isPlaying) {
+        nextSound.play();
+        setSoundInstance(nextSound);
+      } else {
+        setSoundInstance(null);
+      }
+    }
+  };
+
   return (
     <div className={`min-h-screen bg-gradient-to-br from-sky-50 via-white to-indigo-50 flex flex-col items-center justify-center px-4 py-10 ${fugaz.variable}`}>
       <motion.div
@@ -83,22 +98,22 @@ export default function RelaxPage() {
         <h1 className="text-4xl md:text-5xl font-bold text-center text-transparent bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text mb-8 font-fugaz">
           Daily Mindfulness
         </h1>
-  
+
         {/* Mindfulness Video */}
         <div className="mb-10">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Mindfulness Video</h2>
           <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg border">
-          <iframe
-            className="w-full h-full"
-            src="https://www.youtube.com/embed/inpok4MKVLM"
-            title="Mindfulness Video"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/inpok4MKVLM"
+              title="Mindfulness Video"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
-  
+
         {/* Timer & Controls */}
         {!sessionCompleted ? (
           <>
@@ -115,7 +130,7 @@ export default function RelaxPage() {
                 </button>
               </div>
             </div>
-  
+
             {/* Nature Sounds */}
             <div className="mb-4">
               <h2 className="text-xl font-semibold text-gray-700 mb-4">Nature Sounds</h2>
@@ -123,7 +138,7 @@ export default function RelaxPage() {
                 {Object.keys(ambientSounds).map((sound) => (
                   <button
                     key={sound}
-                    onClick={() => setSelectedSound(sound)}
+                    onClick={() => handleSoundChange(sound)}
                     className={`py-3 rounded-xl text-sm font-medium transition-all border shadow-sm ${
                       selectedSound === sound
                         ? 'bg-indigo-100 border-indigo-300 text-indigo-700'
@@ -158,11 +173,10 @@ export default function RelaxPage() {
           </motion.div>
         )}
       </motion.div>
-  
+
       <p className="text-gray-500 mt-8 text-center text-sm">
         Reconnect with your breath. Refresh your mind. 🌿
       </p>
     </div>
   );
-  
 }
