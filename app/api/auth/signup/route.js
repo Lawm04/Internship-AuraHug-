@@ -16,6 +16,23 @@ export async function POST(request) {
       );
     }
 
+     // Email validation (basic format)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { message: "Invalid email format" },
+        { status: 400 }
+      );
+    }
+
+     // Password length validation
+    if (password.length !== 8) {
+      return NextResponse.json(
+        { message: "Password must be exactly 8 characters long" },
+        { status: 400 }
+      );
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return NextResponse.json(
@@ -25,7 +42,7 @@ export async function POST(request) {
     }
 
     //  Hash the password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 8);
 
     const newUser = new User({
       name,
