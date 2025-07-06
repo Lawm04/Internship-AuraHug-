@@ -105,7 +105,7 @@ export default function RelaxPage() {
           <div className="w-full aspect-video rounded-xl overflow-hidden shadow-lg border">
             <iframe
               className="w-full h-full"
-              src="https://www.youtube.com/embed/inpok4MKVLM"
+              src="https://www.youtube.com/embed/ssss7V1_eyA"
               title="Mindfulness Video"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
